@@ -7,7 +7,7 @@ export default function Home() {
   
   return (
     <main>
-      <Header backPath={currentPath} />
+      <Header currentPath={currentPath} />
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;

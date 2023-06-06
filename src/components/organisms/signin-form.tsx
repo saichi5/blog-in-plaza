@@ -3,47 +3,56 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { getSigninUser } from "@/utils/signin";
-import { useRouter } from "next/navigation";
-import type { User } from "@/data";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getUserId } from "@/utils/data-fetch";
+import { setCookie } from "cookies-next";
 
-interface SigninFormProps {
-  signin?: boolean;
-  signup?: boolean;
-}
-export default function SigninForm(props: SigninFormProps) {
-  const {signin, signup } = props;
+export default function SigninForm() {
+  const searchParams = useSearchParams();
+  const backPath = searchParams.get('back') ?? '/';
+
   const router = useRouter();
-  const [ username, setUsername ] = useState('');
+  
+  const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
 
-  const handleSubmit = ( e: FormEvent<HTMLFormElement> ) => {
-    e.preventDefault();
-    var authUser:User | undefined;
-    getSigninUser( username, password ).then(
-      (u) => {authUser = u}
-    );
+  let errorContent;
 
-    router.back();
-  };
+  const handleSubmit = async ( e: FormEvent<HTMLFormElement> ) => {
+    e.preventDefault();
+
+    const userId = await getUserId( email, password );
+    if (userId){
+      setCookie('bipId', userId);
+      window.location.replace(backPath);
+    }
+    errorContent = (
+      <>
+        <p className="text-red">
+          メールアドレス、あるいはパスワードが違います。
+        </p>
+      </>
+    )
+  }
 
   return (
     <form className="space-y-6"
       onSubmit={handleSubmit}
       method="POST" action={undefined}
     >
+      <div>{errorContent}</div>
       <div>
-        <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-          ニックネーム
+        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+          メールアドレス
         </label>
         <div className="mt-2">
           <input
-            id="username"
-            name="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="current-username"
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="current-email"
             required
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
@@ -54,7 +63,7 @@ export default function SigninForm(props: SigninFormProps) {
           <Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
             パスワードを忘れましたか？
           </Link>
-      </div>
+        </div>
         <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
           パスワード
         </label>

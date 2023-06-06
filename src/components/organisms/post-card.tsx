@@ -38,7 +38,7 @@ export default function PostCard(props: PostCardProps) {
             <p className="font-semibold">
               <Link href='/'>
                 <span className="absolute inset-0" />
-                {user.username}
+                {user.displayName}
               </Link>
             </p>
           </div>

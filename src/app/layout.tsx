@@ -2,9 +2,7 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@/components/analytics"
-import Header from "@/components/organisms/header"
 import Footer from "@/components/organisms/footer"
-import { AuthContextProvider } from "@/contexts/auth-context"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,14 +22,12 @@ export default function RootLayout({ children }: LayoutProps) {
         className={`antialiased min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 ${inter.className}`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthContextProvider authUser={undefined}>
             <div className="max-w-2xl mx-auto py-10 px-4">
               {children}
               <hr />
               <Footer />
             </div>
             <Analytics />
-          </AuthContextProvider>
         </ThemeProvider>
       </body>
     </html>

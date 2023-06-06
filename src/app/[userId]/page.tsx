@@ -7,33 +7,34 @@ import Header from "@/components/organisms/header";
 
 interface UserRootPageProps {
   params: {
-    userId: string
+    userId: string | undefined
   }
 }
 
 export async function generateStaticParams(): Promise<UserRootPageProps["params"][]> {
-  const users: User[] = JSON.parse(fs.readFileSync("data-json/users.json", "utf-8"));
-
+  const users: User[] = JSON.parse(fs.readFileSync("./public/data-json/users.json", "utf-8"));
   return users.map((u: User) => ({ userId: u.id }));
   //return [{ userId: '1' }, { userId: '2' }, { userId: '3' }, { userId: '4' }];
 }
 
 export default function UserRoot({ params }: UserRootPageProps) {
   const userId = params?.userId;
+  
   const currentPath = "/" + userId
-
-  const users: User[] = JSON.parse(fs.readFileSync("data-json/users.json", "utf-8"));
+  
+  const users: User[] = JSON.parse(fs.readFileSync("./public/data-json/users.json", "utf-8"));
   const user = users.find((u: User) => u.id === userId)
+
   if (!user) {
     notFound();
   }
 
   return (
     <main>
-      <Header backPath={currentPath} />
+      <Header currentPath={currentPath} />
       <div className="prose dark:prose-invert">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{user.username}</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{user.displayName}</h2>
           <p className="mt-2 text-lg leading-8">
             {user.description}
           </p>

@@ -48,7 +48,7 @@ export default async function PagePage({ params }: SlugPageProps) {
 
   return (
     <main>
-      <Header backPath={currentPath} />
+      <Header currentPath={currentPath} />
       <article className="py-6 prose dark:prose-invert">
        <h1>{page.title}</h1>
        <time dateTime={page.updatedAt} className="mb-2 block text-xs text-gray-600">
