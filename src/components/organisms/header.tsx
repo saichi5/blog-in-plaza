@@ -1,26 +1,21 @@
 'use client'
 
-import { ModeToggle } from "@/components/mode-toggle"
-import Navibar from '../molecules/navibar';
 import { getUser } from '@/utils/data-fetch'
 import type { User } from '@/data'
-import { hasCookie, getCookie } from 'cookies-next'
+import { getCookie } from 'cookies-next'
 import { useState, useEffect } from "react";
+import FloatingActionButton from "@/components/atoms/floating-action-button";
+import Navibar2 from "@/components/molecules/navibar2";
 
 /**
  * ヘッダー
  */
 export default function Header ({ currentPath }: { currentPath: string }){
   const [ data, setData ] = useState<User | undefined>(undefined);
-  let id;
-
-  if (hasCookie('bipId')){
-    // クッキーからuserIdを取り出す。
-    id = getCookie('bipId');
-  }
-  const userId = !id ? "" :id as string;
 
   useEffect(() => {
+    const userId = getCookie('bipId') as string;
+
     async function fetchData(userId:string) {
       try {
         // Call your asynchronous function here
@@ -41,10 +36,8 @@ export default function Header ({ currentPath }: { currentPath: string }){
   return (
     <>
       <header>
-        <div className="flex items-center justify-between">
-          <ModeToggle />
-          <Navibar currentPath={currentPath} authUser={data} />
-        </div>
+        <Navibar2 currentPath={currentPath} authUser={data} />
+        <FloatingActionButton authUser={data} />
       </header>
     </>
   );

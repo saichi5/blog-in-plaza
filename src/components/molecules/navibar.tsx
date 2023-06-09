@@ -28,7 +28,7 @@ export default function Navibar ( props: {
   }
   return (
     <nav className="ml-auto text-sm font-medium space-x-6">
-      <Link href="/">広場</Link>
+      <Link href="/">みんなの広場</Link>
       { authUserContent }
       <Link href="/pages/about">説明</Link>
       <Link href="/pages/notice">注意事項</Link>

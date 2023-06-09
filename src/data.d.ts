@@ -4,7 +4,19 @@ export type User = {
   displayName: string;
   email: string;
   profileImageUrl: string;
-  description: string;
+  description?: string;
+  createdAt: date;
+  updatedAt?: date;
+  followIds?: string[];
+  commentIds?: string[];
+  likes?: {
+    postIds?: string[];
+    commentIds?: string[];
+  };
+  dislikes?: {
+    postIds?: string[];
+    commentIds?: string[];
+  };
 }
 
 export type Pass = {
@@ -13,9 +25,31 @@ export type Pass = {
 }
 
 // 記事の属性
-export interface PostAttributes {
+export type PostAttributes = {
+  postId: string;
+  numberOf: {
+    like: number;
+    dislike: number;
+  };
+  feeling: Good | Bad;
+  lifeStage: Good | Bad;
+  tags?: string[];
+}
+
+export const Good = 0
+export const Bad = 1
+
+export type Comment = {
+  commentId: string;
   postId: string;
   userId: string;
+  body: string;
+  createdAt: date;
+  updatedAt?: date;
+  numberOf: {
+    like: number;
+    dislike: number;
+  };
 }
 
 // Page props for [...slug]

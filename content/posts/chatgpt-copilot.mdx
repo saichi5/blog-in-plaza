@@ -1,0 +1,84 @@
+---
+postId: "7"
+title: ChatGPTとCopilotに要件だけ伝えて自動コーディングしてもらう(AIペアプロ)
+description: 24時間いつでも手助けをしてくれるGitHub Copilotさん。24時間文句も言わずにいつでも親切に回答してくれるChatGPTさん。そんな両者に要件だけ伝えて自動コーディングしてもらおう(AIペアプロ)、という実験記事です。
+createdAt: "2023-04-20"
+updatedAt: "2023-04-21"
+userId: "2"
+---
+
+24時間いつでも手助けをしてくれるGitHub Copilotさん。
+24時間文句も言わずにいつでも親切に回答してくれるChatGPTさん。
+
+そんな両者に要件だけ伝えて自動コーディングしてもらおう(AIペアプロ)、という実験記事です。
+
+## Copilot自動コーディング動画
+以下の動画は、最初に要件だけをコメント入力して、それ以降はCopilotの提案を受け入れているだけになります。
+
+コメントの入力と提案の受け入れ以外は、全くタイピングをしていません。
+
+コメントの内容は Next.jsでボタンをクリックしたら画像を選択してブラウザに表示する です。
+
+Untitled2.gif
+
+## 完成品
+要件のコメントと受け入れだけをしたコードを実際に動かしてみました。
+
+11.gif
+
+自動コーディングしてもらったコードは以下の通りです。
+
+> Next.jsでボタンをクリックしたら画像を選択してブラウザに表示する
+```page.jsx
+import { NextPage } from 'next';
+import React, { useState } from 'react';
+
+const IndexPage: NextPage = () => {
+  const [image, setImage] = useState<string | undefined>(undefined);
+
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={onChangeImage} />
+      {image && <img src={image} />}
+    </div>
+  );
+};
+
+export default IndexPage;
+```
+提案の一覧を表示してくれます。
+
+Screenshot 2023-04-20 at 3.20.22.png
+
+## ChatGPTの用途
+続いては、ChatGPTの用途についてです。
+ChatGPTと併用することで理解を深めたり、コードを洗練させていくことができます。
+
+こちらのサイトでは以下のように書かれています。
+
+ChatGPTは教授、教育助手、学習パートナーとして使っています。Rustの使い方について質問すると、回答が返ってきます（たいていはコードサンプルもあります）。また、エラーメッセージの理解を助けるために使っていますが、これは非常に効果的です。
+
+エラーの解消方法を教えてもらう
+Copilotに自動生成してもらったコードも一発で動かない時もあります。
+
+そんな時は、エラー内容をそのままChatGPTに貼り付けて解消方法を教えてもらいます。
+
+## 質問例
+質問内容
+next.jsで以下のエラーが出ました。
+解消方法を教えて下さい。
+
+Error: The default export is not a React Component in page: "/"
+
+This error happened while generating the page. Any console logs will be displayed in the terminal window.

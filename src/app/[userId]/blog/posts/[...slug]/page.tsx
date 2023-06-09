@@ -61,6 +61,9 @@ export default async function PostPage({ params }: PostPageProps) {
       <Header currentPath={currentPath} />
       <article className="py-6 prose dark:prose-invert">
         <h1 className="mb-2">{post.title}</h1>
+        <time dateTime={post.createdAt} className="mb-2 block text-xs text-gray-600">
+          作成日 { post.createdAt && format(parseISO(post.createdAt), 'LLLL d, yyyy')}
+        </time>
         <time dateTime={post.updatedAt} className="mb-2 block text-xs text-gray-600">
           更新日 { post.updatedAt && format(parseISO(post.updatedAt), 'LLLL d, yyyy')}
         </time>

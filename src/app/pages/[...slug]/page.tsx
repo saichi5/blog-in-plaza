@@ -51,7 +51,10 @@ export default async function PagePage({ params }: SlugPageProps) {
       <Header currentPath={currentPath} />
       <article className="py-6 prose dark:prose-invert">
        <h1>{page.title}</h1>
-       <time dateTime={page.updatedAt} className="mb-2 block text-xs text-gray-600">
+       <time dateTime={page.createdAt} className="mb-2 block text-xs text-gray-600 dark:text-gray-200">
+          作成日 {page.createdAt && format(parseISO(page.createdAt), 'LLLL d, yyyy')}
+       </time>
+       <time dateTime={page.updatedAt} className="mb-2 block text-xs text-gray-600 dark:text-gray-200">
           更新日 {page.updatedAt && format(parseISO(page.updatedAt), 'LLLL d, yyyy')}
        </time>
        {page.description && <p className="text-xl">{page.description}</p>}
