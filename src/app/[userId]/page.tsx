@@ -4,7 +4,6 @@ import type { User } from '@/data'
 import PostCard from "@/components/organisms/post-card";
 import Header from "@/components/organisms/header";
 import { latestOrder } from "@/utils/data-fetch";
-import { getUser } from "@/utils/data-fetch";
 
 interface UserRootPageProps {
   params: {

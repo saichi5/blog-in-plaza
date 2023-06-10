@@ -1,11 +1,8 @@
 import type { User, Pass } from "@/data";
-import { rejects } from "assert";
 import type { Post } from "contentlayer/generated";
-import { resolve } from "path";
 
 export async function getUser( userId:string ):Promise<User | undefined> {
   try {
-    // const res = await fetch('/api?id=users', {
     const res = await fetch('/api/users', {
       method: 'GET',
       headers: {
@@ -18,7 +15,7 @@ export async function getUser( userId:string ):Promise<User | undefined> {
     }
 
     const users = await res.json();
-    // const user = users.data.find((u: User) => userId === u.id )
+
     const user = users.find((u: User) => userId === u.id )
     return user;
 
@@ -29,7 +26,6 @@ export async function getUser( userId:string ):Promise<User | undefined> {
 
 
 export async function getUserId( email:string, password: string ):Promise<string | undefined> {
-    // const resUsers = await fetch('/api?id=users', {
     const resUsers = await fetch('/api/users', {
       method: 'GET',
       cache: 'no-store',
@@ -42,8 +38,7 @@ export async function getUserId( email:string, password: string ):Promise<string
     }
     
     const users = await resUsers.json();
-  
-    // const resPass = await fetch('/api?id=pass', {
+
     const resPass = await fetch('/api/pass', {
       method: 'GET',
       cache: 'no-store',
@@ -56,14 +51,12 @@ export async function getUserId( email:string, password: string ):Promise<string
       throw new Error('Faild to fetch pass of getUserId');
     }
     const passes = await resPass.json();
-      
-    // const user = users.data.find((u: User) => email === u.email );
+
     const user = users.find((u: User) => email === u.email );
   
     if (!user){
       throw new Error('メールアドレスが見つかりません。');
     } else {
-      // const pass = passes.data.find((p: Pass) => user.id === p.id );
       const pass = passes.find((p: Pass) => user.id === p.id );
   
       if ( pass && password === pass?.password ){
