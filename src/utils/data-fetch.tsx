@@ -14,7 +14,7 @@ export async function getUser( userId:string ):Promise<User | undefined> {
     });
 
     if (!res.ok){
-      throw new Error('Faild to fetch data in getUser');
+      throw new Error('Faild to fetch users in getUser');
     }
 
     const users = await res.json();
