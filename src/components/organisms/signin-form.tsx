@@ -3,44 +3,46 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { getUserId } from "@/utils/data-fetch";
 import { setCookie } from "cookies-next";
 
 export default function SigninForm() {
   const searchParams = useSearchParams();
-  const backPath = searchParams.get('back') ?? '/';
 
-  const router = useRouter();
+  const backPath = searchParams && searchParams.get('back');
   
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
-
-  let errorContent;
+  const [ errorMessage, setErrorMessage ] = useState('');
 
   const handleSubmit = async ( e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
 
-    const userId = await getUserId( email, password );
-    if (userId){
-      setCookie('bipId', userId);
-      window.location.replace(backPath);
+    let userId: string | undefined;
+
+    try {
+
+      userId = await getUserId( email, password );
+
+    }catch( error ){
+      const err = error as Error;
+      setErrorMessage(err.message);
     }
-    errorContent = (
-      <>
-        <p className="text-red">
-          メールアドレス、あるいはパスワードが違います。
-        </p>
-      </>
-    )
+
+    if (!!userId){
+      setCookie('bipId', userId);
+      window.location.replace(backPath ?? '/');
+    }
   }
 
   return (
+    <>
+    <p className="text-red-600 text-sm font-semibold">{errorMessage}</p>
     <form className="space-y-6"
       onSubmit={handleSubmit}
       method="POST" action={undefined}
     >
-      <div>{errorContent}</div>
       <div>
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
           メールアドレス
@@ -89,5 +91,6 @@ export default function SigninForm() {
         </button>
       </div>
     </form>
+    </>
   )
 }

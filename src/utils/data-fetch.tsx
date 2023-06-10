@@ -1,9 +1,12 @@
 import type { User, Pass } from "@/data";
+import { rejects } from "assert";
 import type { Post } from "contentlayer/generated";
+import { resolve } from "path";
 
 export async function getUser( userId:string ):Promise<User | undefined> {
   try {
-    const res = await fetch('/api?id=users', {
+    // const res = await fetch('/api?id=users', {
+    const res = await fetch('/api/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -15,7 +18,8 @@ export async function getUser( userId:string ):Promise<User | undefined> {
     }
 
     const users = await res.json();
-    const user = users.data.find((u: User) => userId === u.id )
+    // const user = users.data.find((u: User) => userId === u.id )
+    const user = users.find((u: User) => userId === u.id )
     return user;
 
   } catch (error) {
@@ -25,8 +29,8 @@ export async function getUser( userId:string ):Promise<User | undefined> {
 
 
 export async function getUserId( email:string, password: string ):Promise<string | undefined> {
-  try {
-    const resUsers = await fetch('/api?id=users', {
+    // const resUsers = await fetch('/api?id=users', {
+    const resUsers = await fetch('/api/users', {
       method: 'GET',
       cache: 'no-store',
       headers: {
@@ -36,36 +40,37 @@ export async function getUserId( email:string, password: string ):Promise<string
     if (!resUsers.ok){
       throw new Error('Faild to fetch users of getUserId');
     }
+    
     const users = await resUsers.json();
-
-    const resPass = await fetch('/api?id=pass', {
+  
+    // const resPass = await fetch('/api?id=pass', {
+    const resPass = await fetch('/api/pass', {
       method: 'GET',
       cache: 'no-store',
         headers: {
           'Content-Type': 'application/json',
         },
       });
+    
     if (!resPass.ok){
       throw new Error('Faild to fetch pass of getUserId');
     }
     const passes = await resPass.json();
-    
-    const user = users.data.find((u: User) => email === u.email );
-
+      
+    // const user = users.data.find((u: User) => email === u.email );
+    const user = users.find((u: User) => email === u.email );
+  
     if (!user){
       throw new Error('メールアドレスが見つかりません。');
     } else {
-      const pass = passes.data.find((p: Pass) => user.id === p.id );
-
+      // const pass = passes.data.find((p: Pass) => user.id === p.id );
+      const pass = passes.find((p: Pass) => user.id === p.id );
+  
       if ( pass && password === pass?.password ){
         return pass.id;
       }
       throw new Error('パスワードが違います。');
     }
-  
-  } catch (error) {
-    console.error('getUserId function: ' + error)
-  }
 }
 
 export const latestOrder = (a: Post, b: Post) => {

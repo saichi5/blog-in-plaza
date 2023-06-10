@@ -51,20 +51,6 @@ export default function Navibar2( props: {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <Image
-                    height={0} width={0}
-                    className="block h-8 w-auto lg:hidden"
-                    src="/mark.svg"
-                    alt="Your Company"
-                  />
-                  <Image
-                    height={0} width={0}
-                    className="hidden h-8 w-auto lg:block"
-                    src="/mark.svg"
-                    alt="Your Company"
-                  />
-                </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
