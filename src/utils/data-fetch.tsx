@@ -3,7 +3,8 @@ import type { Post } from "contentlayer/generated";
 
 export async function getUser( userId:string ):Promise<User | undefined> {
   try {
-    const res = await fetch('/api/users', {
+    // const res = await fetch('/api/users', {
+    const res = await fetch('/personal/users.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +27,8 @@ export async function getUser( userId:string ):Promise<User | undefined> {
 
 
 export async function getUserId( email:string, password: string ):Promise<string | undefined> {
-    const resUsers = await fetch('/api/users', {
+  // const resUsers = await fetch('/api/users', {
+  const resUsers = await fetch('/personal/users.json', {
       method: 'GET',
       cache: 'no-store',
       headers: {
@@ -39,7 +41,8 @@ export async function getUserId( email:string, password: string ):Promise<string
     
     const users = await resUsers.json();
 
-    const resPass = await fetch('/api/pass', {
+    // const resPass = await fetch('/api/pass', {
+    const resPass = await fetch('/personal/pass.json', {
       method: 'GET',
       cache: 'no-store',
         headers: {
