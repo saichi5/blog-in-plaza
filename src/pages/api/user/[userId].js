@@ -1,16 +1,13 @@
 import fs from 'fs';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import type { User} from '@/data';
-
 
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse) {
+  req,
+  res) {
 
     const { userId } = req.query;
 
     if (req.method === 'GET'){
-      const allUsers: User[] = JSON.parse(fs.readFileSync('./personal/users.json', "utf-8"));
+      const allUsers = JSON.parse(fs.readFileSync('./personal/users.json', "utf-8"));
 
       const user = allUsers.find((u) => {
         return userId === u.id;
