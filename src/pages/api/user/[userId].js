@@ -7,7 +7,7 @@ export default function handler(
     const { userId } = req.query;
 
     if (req.method === 'GET'){
-      const allUsers = JSON.parse(fs.readFileSync(process.env.USERS_PATH + '/users.json', "utf-8"));
+      const allUsers = JSON.parse(fs.readFileSync(process.env.NEXT_PUBLIC_USERS_PATH + '/users.json', "utf-8"));
 
       const user = allUsers.find((u) => {
         return userId === u.id;
