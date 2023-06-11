@@ -3,7 +3,7 @@ import type { Post } from "contentlayer/generated";
 
 export async function getUser( userId:string ):Promise<User | undefined> {
   try {
-    const res = await fetch('/api/users', {
+    const res = await fetch('/api/user/' + userId, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -11,13 +11,10 @@ export async function getUser( userId:string ):Promise<User | undefined> {
     });
 
     if (!res.ok){
-      throw new Error('Faild to fetch users in getUser');
+      throw new Error('Faild to fetch user in getUser');
     }
 
-    const users = await res.json();
-
-    const user = users.find((u: User) => userId === u.id )
-    return user;
+    return await res.json();
 
   } catch (error) {
     console.error('getUser function: ' + error)

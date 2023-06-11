@@ -57,3 +57,4 @@ export interface SlugPageProps {
   params: { slug: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
