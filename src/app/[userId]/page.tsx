@@ -12,7 +12,7 @@ interface UserRootPageProps {
 }
 
 export async function generateStaticParams(): Promise<UserRootPageProps["params"][]> {
-  const users: User[] = JSON.parse(fs.readFileSync("./personal/users.json", "utf-8"));
+  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
   return users.map((u: User) => ({ userId: u.id }));
   //return [{ userId: '1' }, { userId: '2' }, { userId: '3' }, { userId: '4' }];
 }
@@ -22,7 +22,7 @@ export default async function UserRoot({ params }: UserRootPageProps) {
   
   const currentPath = "/" + userId
 
-  const users: User[] = JSON.parse(fs.readFileSync("./personal/users.json", "utf-8"));
+  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
   const user = users.find((u) => u.id === userId);
 
   return (
