@@ -2,30 +2,40 @@
 
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import type { User } from '@/data'
 import Image from 'next/image'
 import Link from "next/link";
 import { deleteCookie } from 'cookies-next';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
+import { useUser } from '@/components/user-context';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function ProfileButton({authUser}: {authUser: User}) {
+export default function ProfileButton({ currentPath }
+  : { currentPath: string;}) {
+
+  const back = '?back=' + currentPath;
+  const authUser = useUser();
 
   return (
     <>
     {/* Profile dropdown */}
       <Menu as="div" className="relative ml-3">
         <div>
-          <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+          <Menu.Button className="flex rounded-full bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span className="sr-only">Open user menu</span>
-            <Image
-              height={0} width={0}
-              className="h-8 w-8 rounded-full"
+            {
+              authUser && authUser.profileImageUrl ?
+              <Image
+                height={0} width={0}
+                className="h-8 w-8 rounded-full"
                 src={authUser.profileImageUrl}
                 alt=""
-            />
+              />
+            :
+              <UserCircleIcon className="h-8 w-8 text-gray-300" aria-hidden="true" />
+            }
           </Menu.Button>
         </div>
         <Transition
@@ -41,10 +51,10 @@ export default function ProfileButton({authUser}: {authUser: User}) {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="#"
+                  href={'/dashboad' + back}
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
-                  プロフィールの編集
+                  設定
                 </Link>
               )}
             </Menu.Item>

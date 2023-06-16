@@ -1,24 +1,26 @@
 'use client'
 
-import { User } from "@/data"
+import { useUser } from "@/components/user-context";
+import Link from "next/link";
 
-export default function FloatingActionButton({ authUser }
-  : { authUser: User | undefined }){
-  
+export default function FloatingActionButton(){
+  const user = useUser();
 return (
   <>
-    { authUser ? 
-      <div className="fixed z-50 bottom-10 right-10 py-5 px-2 border-2 
-          bg-orange-400 rounded-full cursor-pointer shadow-lg"
-          onClick={() => { }} >
-        Create
-      </div>
+    { user ? 
+      <Link href="/">
+        <div className="fixed z-50 bottom-10 right-10 py-5 px-2 border-2 
+            bg-orange-400 rounded-full cursor-pointer shadow-lg">
+          Create
+        </div>
+      </Link>
       :
-      <div className="fixed z-50 bottom-10 right-10 py-5 px-2 border-2 
-          bg-green-400 rounded-full cursor-pointer shadow-lg"
-          onClick={() => { }} >
-        Sign up
-      </div>
+      <Link href="/signup">
+        <div className="fixed z-50 bottom-10 right-10 py-5 px-2 border-2 
+          bg-green-400 rounded-full cursor-pointer shadow-lg">
+          Sign up
+        </div>
+      </Link>
     }
   </>
 )}

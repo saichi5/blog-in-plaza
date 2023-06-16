@@ -3,7 +3,8 @@ export type User = {
   id: string;
   displayName: string;
   email: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
+  coverImageUrl?: string;
   description?: string;
   createdAt: date;
   updatedAt?: date;

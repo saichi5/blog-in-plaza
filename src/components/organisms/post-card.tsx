@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { User } from "@/data";
 import fs from 'fs';
 import {notFound} from 'next/navigation';
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 
 type PostCardProps = {
@@ -14,7 +15,7 @@ type PostCardProps = {
 export default function PostCard(props: PostCardProps) {
   const post = props.post;
 
-  const users: User[] = JSON.parse(fs.readFileSync("./personal/users.json", "utf-8"));
+  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
   const user = users.find((u) => u.id === post.userId);
 
   if (!user){ notFound() }
@@ -44,15 +45,21 @@ export default function PostCard(props: PostCardProps) {
           <p className="mt-5 line-clamp-3 text-sm leading-6">{post.description}</p>
         </div>
         <div className="relative mt-5 mb-0 flex items-center gap-x-4">
-          <Image src={user.profileImageUrl ?? ""} height={0} width={0} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+          
+          {
+            user.profileImageUrl ?
+              <Image src={user.profileImageUrl} height={0} width={0} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+            :
+              <UserCircleIcon className="h-14 w-14 text-gray-300" aria-hidden="true"  />
+          }
           <div className="text-sm leading-6">
             <p className="font-semibold">
-              <Link href='/'>
+              <Link href={'/' + user.id}>
                 <span className="absolute inset-0" />
                 {user.displayName}
               </Link>
             </p>
-            </div>
+          </div>
         </div>
       </article>
     </div>

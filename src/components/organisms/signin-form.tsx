@@ -37,7 +37,7 @@ export default function SigninForm() {
   }
 
   return (
-    <>
+    <div>
     <p className="text-red-600 text-sm font-semibold">{errorMessage}</p>
     <form className="space-y-6"
       onSubmit={handleSubmit}
@@ -91,6 +91,6 @@ export default function SigninForm() {
         </button>
       </div>
     </form>
-    </>
+    </div>
   )
 }

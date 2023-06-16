@@ -5,6 +5,7 @@ import { Metadata } from "next"
 import { Mdx } from "@/components/mdx-components"
 import Header from "@/components/organisms/header";
 import { SlugPageProps } from "@/data";
+import { UserProvider } from "@/components/user-context";
 
 async function getPostFromParams(params: SlugPageProps["params"]) {
   const slug = params?.slug?.join("/")
@@ -58,7 +59,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <main>
-      <Header currentPath={currentPath} />
+      <UserProvider>
+        <Header currentPath={currentPath} />
+      </UserProvider>
       <article className="py-6 prose dark:prose-invert">
         <h1 className="mb-2">{post.title}</h1>
         <time dateTime={post.createdAt} className="mb-2 block text-xs text-gray-600">

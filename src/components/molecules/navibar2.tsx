@@ -4,9 +4,9 @@ import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import ProfileButton from '@/components/molecules/profile-button'
 import { ModeToggle } from '@/components/atoms/mode-toggle'
-import type { User } from '@/data'
 import Image from 'next/image'
 import Link from "next/link";
+import { useUser } from '@/components/user-context'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -15,9 +15,10 @@ function classNames(...classes: string[]) {
 
 export default function Navibar2( props: { 
     currentPath: string;
-    authUser: User | undefined;
   }) {
-  const { currentPath, authUser } = props;
+  const { currentPath } = props;
+
+  const authUser = useUser();
 
   const navigation = [
     { name: 'みんなの広場', href: '/', current: false },
@@ -92,7 +93,7 @@ export default function Navibar2( props: {
                         <Link href={"/signin" + back} className='px-4 py-2'>Sign in</Link>
                       </button>
                     ):(
-                    <ProfileButton authUser={authUser} />
+                    <ProfileButton currentPath={currentPath} />
                     )
                 }
               </div>

@@ -5,14 +5,14 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "広場でブログ",
-  description: "Signin page.",
+  description: "Profile",
 }
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
-export default function SigninLayout({ children }: LayoutProps) {
+export default function ProfileLayout({ children }: LayoutProps) {
   return (
     <html lang="ja" className="h-full">
       <body

@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import { Mdx } from "@/components/mdx-components"
 import { SlugPageProps } from "@/data";
 import Header from "@/components/organisms/header";
+import { UserProvider } from "@/components/user-context";
 
 async function getPageFromParams(params: SlugPageProps['params']) {
   const slug = params?.slug?.join("/")
@@ -48,7 +49,9 @@ export default async function PagePage({ params }: SlugPageProps) {
 
   return (
     <main>
-      <Header currentPath={currentPath} />
+      <UserProvider>
+        <Header currentPath={currentPath} />
+      </UserProvider>
       <article className="py-6 prose dark:prose-invert">
        <h1>{page.title}</h1>
        <time dateTime={page.createdAt} className="mb-2 block text-xs text-gray-600 dark:text-gray-200">

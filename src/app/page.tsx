@@ -1,14 +1,17 @@
 import { allPosts } from "contentlayer/generated";
 import Header from '@/components/organisms/header'
 import PostCard from "@/components/organisms/post-card";
-import { latestOrder } from "@/utils/data-fetch";
+import { latestOrder } from "@/utils/search-funcs";
+import { UserProvider } from "@/components/user-context";
 
 export default function Home() {
   const currentPath = '/';
   
   return (
     <main>
-      <Header currentPath={currentPath} />
+      <UserProvider>
+        <Header currentPath={currentPath} />
+      </UserProvider>
       <div className="prose dark:prose-invert">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">みんなの広場</h2>
