@@ -1,5 +1,5 @@
 import type { User, Pass } from "@/data";
-import { allPosts, Post } from "contentlayer/generated";
+import { allPosts } from "contentlayer/generated";
 
 export async function getUser( userId:string ):Promise<User | undefined> {
   try {

@@ -10,9 +10,9 @@ export default function Signin() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
             height={0} width={0}
-            className="mx-auto h-20 w-auto"
-            src="/nico2.jpg"
-            alt="Your Company"
+            className="mx-auto h-20 w-auto rounded"
+            src="/pictures/nico2.jpg"
+            alt=""
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             いらっしゃいませ

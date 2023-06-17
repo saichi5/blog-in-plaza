@@ -16,7 +16,7 @@ return (
       </Link>
       :
       <Link href="/signup">
-        <div className="fixed z-50 bottom-10 right-10 py-5 px-2 border-2 
+        <div className="fixed z-50 bottom-10 right-10 py-5 px-2 text-white border-2 
           bg-green-400 rounded-full cursor-pointer shadow-lg">
           Sign up
         </div>

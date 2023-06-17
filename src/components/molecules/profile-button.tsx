@@ -54,14 +54,14 @@ export default function ProfileButton({ currentPath }
                   href={'/dashboad' + back}
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
-                  設定
+                  アカウント設定
                 </Link>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/pages/about"
+                  href="/pages/construction3"
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   利用方法
@@ -71,7 +71,7 @@ export default function ProfileButton({ currentPath }
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/pages/aws-amplify"
+                  href="/pages/construction4"
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   マークダウン記法

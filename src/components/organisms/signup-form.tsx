@@ -8,12 +8,13 @@ import { setCookie } from "cookies-next";
 import Image from "next/image";
 import moment from 'moment';
 import Dropzone from 'react-dropzone';
+import { uploadUserImage } from '@/utils/file-loading';
 
 export default function SignupForm (){
   const [ displayName, setDisplayName ] = useState('');
   const [ description, setDescription ] = useState('');
   const [ profileImageUrl, setProfileImageUrl ] = useState('');
-  const [ coverImageUrl, setCoverImageUrl ] = useState();
+  const [ coverImageUrl, setCoverImageUrl ] = useState('');
   
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -22,38 +23,49 @@ export default function SignupForm (){
   const [ errorMessage, setErrorMessage ] = useState('');
 
   // ブラウザ表示用の paths
-  const [previewImagePaths, setPreviewImagePaths] = useState<string[]>();
-  const [previewPhotoPaths, setPreviewPhotoPaths] = useState<string[]>();
+  const [previewCoverPath, setPreviewCoverPath] = useState<string>();
+  const [previewAvatorPath, setPreviewAvatorPath] = useState<string>();
 
   // upload用の files
-  const [files, setFiles] = useState<File[]>();
-  const [photos, setPhotos] = useState<File[]>();
+  const [cover, setCover] = useState<File>();
+  const [avator, setAvator] = useState<File>();
 
   //********************* 
   /** 選択された画像を処理 */
   //*********************
-  const onDropPhoto = (acceptedFiles: File[]) => {
+  // avator
+  const onDropAvator = (acceptedFiles: File[]) => {
     // 引数で受け取れる値は、File型の配列なので upload用のstateへsetする
-    setPhotos(acceptedFiles);
+    setAvator(acceptedFiles[0]);
     // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
     // @see https://developer.mozilla.org/ja/docs/Web/API/URL/createObjectURL
-    const dataUrls = acceptedFiles.map(
-      (file) => URL.createObjectURL(file)
-    );
+    const dataUrl = URL.createObjectURL(acceptedFiles[0]);
     // createObjectURLで生成された、ブラウザ表示用のURLをstateへsetする
-    setPreviewPhotoPaths(dataUrls);
+    setPreviewAvatorPath(dataUrl);
   };
 
-  const onDrop = (acceptedFiles: File[]) => {
+  // cover picture
+  const onDropCover = (acceptedFiles: File[]) => {
     // 引数で受け取れる値は、File型の配列なので upload用のstateへsetする
-    setFiles(acceptedFiles);
+    setCover(acceptedFiles[0]);
     // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
     // @see https://developer.mozilla.org/ja/docs/Web/API/URL/createObjectURL
-    const dataUrls = acceptedFiles.map(
-      (file) => URL.createObjectURL(file)
-    );
+    const dataUrl = URL.createObjectURL(acceptedFiles[0]);
     // createObjectURLで生成された、ブラウザ表示用のURLをstateへsetする
-    setPreviewImagePaths(dataUrls);
+    setPreviewCoverPath(dataUrl);
+  };
+
+  const buildFormData = (file?: File) => {
+    if (!file) {
+      return new FormData();
+    }
+    // DB へアップロードするために、FormData へ append する
+    // @see https://developer.mozilla.org/ja/docs/Web/API/FormData/Using_FormData_Objects
+    const formData = new FormData();
+    // append の第一引数はバックエンドと合わせる
+    formData.append('image', file, file.name);
+
+    return formData;
   };
 
   // submit時に呼び出される
@@ -65,6 +77,14 @@ export default function SignupForm (){
 
     try {
       const newUserId = await getNewUserId(email as string, password, password2);
+
+      let formData = buildFormData(cover);
+      let res = await uploadUserImage( formData );
+      setCoverImageUrl( '/pictures/users/' + res ?? '');
+      formData = buildFormData(avator);
+      res = await uploadUserImage( formData );
+      setProfileImageUrl( '/pictures/users/' + res ?? '');
+
 
       const newUser: User = {
         id: newUserId,
@@ -150,32 +170,32 @@ export default function SignupForm (){
             {/* profileImageUrl  */}
             <div className="col-span-full">
               <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                フォト
+                アバター
               </label>
               <div  className="mt-2 flex items-center gap-x-3">
-                <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
-                <Dropzone onDrop={onDropPhoto}>
+              {previewAvatorPath ? (
+                    <Image src={previewAvatorPath} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
+              ) : (
+                  <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
+              )}
+                <Dropzone onDrop={onDropAvator}>
                   {({getRootProps, getInputProps}) => (
-                    <div {...getRootProps({ className: `dropzone "rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"` })}>
+                    <div {...getRootProps({ className: `dropzone "cursor-pointer rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500"` })}>
                       <input {...getInputProps()} />
-                      <p>変更</p>
+                      <p className="relative cursor-pointer rounded-md bg-white focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2">
+                        変更
+                      </p>
                     </div>
                   )}
                 </Dropzone>
-                {previewPhotoPaths &&
-                previewPhotoPaths.map((image, i) => (
-                <div key={i}>
-                  <Image src={image} alt='' height={150} width={174} />
-                </div>
-              ))}
               </div>
             </div>
             {/* coverImageUrl  */}
             <div className="col-span-full">
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-                カバーピクチャー
+                カバー画像
               </label>
-              <Dropzone onDrop={onDrop}>
+              <Dropzone onDrop={onDropCover}>
                 {({getRootProps, getInputProps}) => (
                   <div {...getRootProps({ className: `dropzone "mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"` })}>
                     <div className="text-center">
@@ -186,7 +206,7 @@ export default function SignupForm (){
                           className="relative cursor-pointer rounded-md bg-white text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                         >
                           <span>アップロード</span>
-                          <input id="file-upload" name="file-upload" {...getInputProps()} />
+                          <input {...getInputProps()} />
                           <div className='text-gray-600'>
                             <p className="pl-1">or</p>
                             <p className="pl-1">画像ファイルをドラッグ&ドロップ</p>
@@ -197,12 +217,9 @@ export default function SignupForm (){
                   </div>
                 )}
               </Dropzone>
-              {previewImagePaths &&
-                previewImagePaths.map((image, i) => (
-                <div key={i}>
-                  <Image src={image} alt='' height={150} width={174} />
-                </div>
-              ))}
+              {previewCoverPath &&
+                <Image src={previewCoverPath} alt='' height={150} width={174} />
+              }
             </div>
           </div>
         </div>

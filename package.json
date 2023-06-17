@@ -26,6 +26,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
+    "formidable": "^3.3.2",
     "framer-motion": "^10.12.16",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",

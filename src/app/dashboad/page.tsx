@@ -16,7 +16,7 @@ export default function ProfilePage() {
         <Email />
         <hr />
         <h2 className="mt-12 text-base font-semibold leading-7 text-gray-900">
-          プロフィールの編集
+          プロフィールの編集<strong className="bg-yellow-400">(作成中です)</strong>
         </h2>
         <EditorForm  />
         <hr />
