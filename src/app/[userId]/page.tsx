@@ -1,14 +1,13 @@
 import { allPosts } from "contentlayer/generated";
-import fs from 'fs';
-import type { User } from '@/data'
 import PostCard from "@/components/organisms/post-card";
 import Header from "@/components/organisms/header";
 import { latestOrder } from "@/utils/search-funcs";
 import { UserProvider } from "@/components/user-context";
 import { format, parseISO } from 'date-fns';
 import Image from "next/image";
+import allUsers from 'public/personal/users.json' assert { type: 'json' }
 
-// export const revalidate = 60 // revalidate this page every 60 seconds
+export const revalidate = 0;
 
 interface UserRootPageProps {
   params: {
@@ -17,18 +16,15 @@ interface UserRootPageProps {
 }
 
 export async function generateStaticParams(): Promise<UserRootPageProps["params"][]> {
-  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
-  return users.map((u: User) => ({ userId: u.id }));
-  //return [{ userId: '1' }, { userId: '2' }, { userId: '3' }, { userId: '4' }];
+    return allUsers.map((u) => ({ userId: u.id }));
+    //return [{ userId: '1' }, { userId: '2' }, { userId: '3' }, { userId: '4' }];
 }
 
 export default async function UserRoot({ params }: UserRootPageProps) {
   const userId = params?.userId;
   
   const currentPath = "/" + userId
-
-  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
-  const user = users.find((u) => u.id === userId);
+  const user = allUsers.find((u) => u.id === userId);
 
   return (
     <main>

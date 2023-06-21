@@ -4,6 +4,8 @@ import PostCard from "@/components/organisms/post-card";
 import { latestOrder } from "@/utils/search-funcs";
 import { UserProvider } from "@/components/user-context";
 
+export const revalidate = 0;
+
 export default function Home() {
   const currentPath = '/';
   

@@ -1,60 +1,16 @@
 import type { User, Pass } from "@/data";
 import { allPosts } from "contentlayer/generated";
+import allUsers from 'public/personal/users.json' assert { type: 'json' }
+import allPass from 'public/personal/pass.json' assert { type: 'json' }
 
-export async function getUser( userId:string ):Promise<User | undefined> {
-  try {
-    const res = await fetch('/api/user/' + userId, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+export function getUserId( email:string, password: string ){
 
-    if (!res.ok){
-      throw new Error('Faild to fetch user in getUser');
-    }
-
-    return await res.json();
-
-  } catch (error) {
-    console.error('getUser function: ' + error)
-  }
-}
-
-
-export async function getUserId( email:string, password: string ):Promise<string | undefined> {
-  const resUsers = await fetch('/api/users', {
-      method: 'GET',
-      cache: 'no-store',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!resUsers.ok){
-      throw new Error('Faild to fetch users of getUserId');
-    }
-    
-    const users = await resUsers.json();
-
-    const resPass = await fetch('/api/pass', {
-      method: 'GET',
-      cache: 'no-store',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    
-    if (!resPass.ok){
-      throw new Error('Faild to fetch pass of getUserId');
-    }
-    const passes = await resPass.json();
-
-    const user = users.find((u: User) => email === u.email );
+    const user = allUsers.find((u: User) => email === u.email );
   
     if (!user){
       throw new Error('メールアドレスが見つかりません。');
     } else {
-      const pass = passes.find((p: Pass) => user.id === p.id );
+      const pass = allPass.find((p: Pass) => user.id === p.id );
   
       if ( pass && password === pass?.password ){
         return pass.id;
@@ -64,32 +20,20 @@ export async function getUserId( email:string, password: string ):Promise<string
 }
 
 
-export async function getNewUserId(
+export function getNewUserId(
   email: string,
   password: string,
   password2: string
-  ):Promise<string> {
+  ){
   if (password !== password2){
     throw new Error('パスワードが異なります。もう一度入力してください');
   }
-  const resUsers = await fetch('/api/users', {
-      method: 'GET',
-      cache: 'no-store',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  if (!resUsers.ok){
-    throw new Error('Faild to fetch users of getNewUserId');
-  }
-    
-  const users = await resUsers.json();
 
-  if (!!users.find((u: User) => u.email === email)) {
+  if (!!allUsers.find((u: User) => u.email === email)) {
     throw new Error('登録済のメールアドレスが入力されました。');
   }
 
-  const userIds = users.map((u: User) => +u.id );
+  const userIds = allUsers.map((u: User) => +u.id );
 
   return (Math.max(...userIds) + 1).toString().trim();
 }

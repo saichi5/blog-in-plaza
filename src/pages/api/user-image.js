@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { promisify } from 'util'
-import formidable, {formidableErrors} from 'formidable'
+import formidable from 'formidable'
 
 // 何故か必要
 export const config = {
@@ -10,7 +10,7 @@ export const config = {
 };
 const writeFile = promisify(fs.writeFile)
 
-export default async (req, res) => {
+export default function handler(req, res) {
   if (req.method === 'POST'){
     const form = formidable({maxFileSize: 10 * 1024 * 1024});
     form.parse(req, async (err, fields, files) => {

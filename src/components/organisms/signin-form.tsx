@@ -16,14 +16,14 @@ export default function SigninForm() {
   const [ password, setPassword ] = useState('');
   const [ errorMessage, setErrorMessage ] = useState('');
 
-  const handleSubmit = async ( e: FormEvent<HTMLFormElement> ) => {
+  const handleSubmit = ( e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
 
     let userId: string | undefined;
 
     try {
 
-      userId = await getUserId( email, password );
+      userId = getUserId( email, password );
 
     }catch( error ){
       const err = error as Error;

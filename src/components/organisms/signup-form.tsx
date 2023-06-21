@@ -74,7 +74,7 @@ export default function SignupForm (){
     const dateString = moment().format('YYYY-MM-DD');
 
     try {
-      const newUserId = await getNewUserId(email as string, password, password2);
+      const newUserId = getNewUserId(email as string, password, password2);
 
       let formData: FormData;
       // cover image

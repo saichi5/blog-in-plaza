@@ -14,7 +14,7 @@ export default function DeactivateModal(props
 
   const cancelButtonRef = useRef(null)
 
-  useEffect(() => setOpen(show) )
+  useEffect(() => setOpen(show), [show])
   
 
   return (

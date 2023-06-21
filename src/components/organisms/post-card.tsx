@@ -2,10 +2,9 @@ import type { Post } from "contentlayer/generated";
 import { format, parseISO } from 'date-fns';
 import Link from "next/link";
 import Image from "next/image";
-import type { User } from "@/data";
-import fs from 'fs';
 import {notFound} from 'next/navigation';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import allUsers from 'public/personal/users.json' assert {type: 'json'}
 
 
 type PostCardProps = {
@@ -15,8 +14,7 @@ type PostCardProps = {
 export default function PostCard(props: PostCardProps) {
   const post = props.post;
 
-  const users: User[] = JSON.parse(fs.readFileSync(process.env.USERS_PATH + "/users.json", "utf-8"));
-  const user = users.find((u) => u.id === post.userId);
+  const user = allUsers.find((u) => u.id === post.userId);
 
   if (!user){ notFound() }
   

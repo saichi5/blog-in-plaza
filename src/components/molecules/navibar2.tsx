@@ -4,7 +4,6 @@ import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import ProfileButton from '@/components/molecules/profile-button'
 import { ModeToggle } from '@/components/atoms/mode-toggle'
-import Image from 'next/image'
 import Link from "next/link";
 import { useUser } from '@/components/user-context'
 

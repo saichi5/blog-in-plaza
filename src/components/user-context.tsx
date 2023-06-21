@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { User } from '@/data';
 import { getCookie } from 'cookies-next';
-import { getUser } from '@/utils/data-fetch';
+import allUsers from 'public/personal/users.json' assert {type: 'json'}
 
 const UserContext = createContext<User | undefined>(undefined);
 
@@ -12,23 +12,9 @@ export function UserProvider({ children }: {children: React.ReactNode}) {
 
   useEffect(() => {
     const userId = getCookie('bipId') as string;
-  
-    async function fetchData(userId:string) {
-      try {
-        // Call your asynchronous function here
-        const user = await getUser(userId);
-
-        // Once the response is received, update the state
-        setData(user);
-
-      } catch (error) {
-        // Handle any errors that occure during the async operation
-        console.error('Error fetching user in fetchData: ', error);
-      }
-    }
-
-    fetchData(userId);
-  },[]);    // The empty dependency array ensures the effect runs only once
+      const user = allUsers.find((u) => u.id === userId)
+    setData(user);
+  },[]);
 
 
   return (
