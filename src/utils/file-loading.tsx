@@ -1,20 +1,19 @@
-export async function uploadUserImage( formData: FormData ): Promise<string | undefined> {
+import axios from 'axios';
+
+export async function uploadUserImage( formData: FormData )
+  : Promise<{url: string} | undefined>{
+  if (!formData.has('images')) return {url: ''}
+
   try {
-    const res = await fetch('/api/user-image', {
-      method: 'POST',
+    const res = await axios.post('/api/user-image', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      body: formData,
     });
 
-    if (!res.ok){
-      throw new Error('Faild to fetch image in uploadUserImage');
-    }
-
-    return await res.json();
+    return res.data;
 
   } catch (error) {
-    console.error('uploadUserImage function: ' + error)
+    throw new Error('uploadUserImage: ' + error);
   }
 }

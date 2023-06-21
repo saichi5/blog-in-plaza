@@ -8,6 +8,8 @@ import { UserProvider } from "@/components/user-context";
 import { format, parseISO } from 'date-fns';
 import Image from "next/image";
 
+// export const revalidate = 60 // revalidate this page every 60 seconds
+
 interface UserRootPageProps {
   params: {
     userId: string | undefined

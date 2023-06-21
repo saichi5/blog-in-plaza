@@ -19,45 +19,40 @@ export default function EditorForm (){
 
   const user = useUser() as User;
 
-  console.log('akira01: ' + user?.displayName)
+  const [ displayName, setDisplayName ] = useState('');
+  const [ description, setDescription ] = useState('');
+  const [ oldProfileImageUrl, setOldProfileImageUrl ] = useState('');
+  const [ oldCoverImageUrl, setOldCoverImageUrl ] = useState('');
 
-  const [ displayName, setDisplayName ] = useState(user?.displayName);
-  const [ description, setDescription ] = useState(user?.description);
-  const [ profileImageUrl, setProfileImageUrl ] = useState(user?.profileImageUrl);
-  const [ coverImageUrl, setCoverImageUrl ] = useState(user?.coverImageUrl);
-  
   const [ errorMessage, setErrorMessage ] = useState('');
 
-  console.log('akira02: ' + displayName)
-
   useEffect(() => {
-    setDisplayName(user?.displayName ?? '');
-    setDescription(user?.description ?? '');
-    setProfileImageUrl(user?.profileImageUrl ?? '');
-    setCoverImageUrl(user?.coverImageUrl ?? '');
-    console.log('akira03: ' + displayName)
-  }, [] );
+    setDisplayName(user?.displayName as string);
+    setDescription(user?.description as string);
+    setOldProfileImageUrl(user?.profileImageUrl as string);
+    setOldCoverImageUrl(user?.coverImageUrl as string);
+  }, [user] );
 
   // ブラウザ表示用の paths
   const [previewCoverPath, setPreviewCoverPath] = useState<string>();
-  const [previewAvatorPath, setPreviewAvatorPath] = useState<string>();
+  const [previewAvatarPath, setPreviewAvatarPath] = useState<string>();
 
   // upload用の files
   const [cover, setCover] = useState<File>();
-  const [avator, setAvator] = useState<File>();
+  const [avatar, setAvatar] = useState<File>();
 
   //********************* 
   /** 選択された画像を処理 */
   //*********************
-  // avator
-  const onDropAvator = (acceptedFiles: File[]) => {
+  // avatar
+  const onDropAvatar = (acceptedFiles: File[]) => {
     // 引数で受け取れる値は、File型の配列なので upload用のstateへsetする
-    setAvator(acceptedFiles[0]);
+    setAvatar(acceptedFiles[0]);
     // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
     // @see https://developer.mozilla.org/ja/docs/Web/API/URL/createObjectURL
     const dataUrl = URL.createObjectURL(acceptedFiles[0]);
     // createObjectURLで生成された、ブラウザ表示用のURLをstateへsetする
-    setPreviewAvatorPath(dataUrl);
+    setPreviewAvatarPath(dataUrl);
   };
 
   // cover picture
@@ -71,7 +66,7 @@ export default function EditorForm (){
     setPreviewCoverPath(dataUrl);
   };
 
-  const buildFormData = (file?: File) => {
+  const buildFormData = (file?: File, oldFilename?: string) => {
     if (!file) {
       return new FormData();
     }
@@ -79,7 +74,8 @@ export default function EditorForm (){
     // @see https://developer.mozilla.org/ja/docs/Web/API/FormData/Using_FormData_Objects
     const formData = new FormData();
     // append の第一引数はバックエンドと合わせる
-    formData.append('image', file, file.name);
+    formData.append('images', file, file.name);
+    oldFilename && formData.append('oldFilename', oldFilename);
 
     return formData;
   };
@@ -92,12 +88,16 @@ export default function EditorForm (){
     const dateString = moment().format('YYYY-MM-DD');
 
     try {
-      let formData = buildFormData(cover);
-      let res = await uploadUserImage( formData );
-      setCoverImageUrl( '/pictures/users/' + res ?? '');
-      formData = buildFormData(avator);
-      res = await uploadUserImage( formData );
-      setProfileImageUrl( '/pictures/users/' + res ?? '');
+      let formData: FormData;
+      // cover image
+      formData = buildFormData(cover, oldCoverImageUrl as string);
+      const resCover = await uploadUserImage( formData );
+      const coverImageUrl = resCover?.url !== '' ? resCover?.url : oldCoverImageUrl;
+
+      // avatar image
+      formData = buildFormData(avatar, oldProfileImageUrl as string);
+      const resAvator = await uploadUserImage( formData );
+      const profileImageUrl = resAvator?.url !== '' ? resAvator?.url : oldProfileImageUrl;
 
         const oldUser: User = {
           id: user.id,
@@ -130,9 +130,6 @@ export default function EditorForm (){
       setErrorMessage(err.message);
     }
   }
-
-  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  };
 
   return (
     <div>
@@ -182,12 +179,17 @@ export default function EditorForm (){
                 アバター
               </label>
               <div  className="mt-2 flex items-center gap-x-3">
-              {previewAvatorPath ? (
-                    <Image src={previewAvatorPath} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
-              ) : (
-                  <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
-              )}
-                <Dropzone onDrop={onDropAvator}>
+              {
+                previewAvatarPath ? <Image src={previewAvatarPath} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
+                :
+                (
+                  (oldProfileImageUrl === '') ? <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
+                  :
+                  <Image src={oldProfileImageUrl} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
+                )
+              }
+
+                <Dropzone onDrop={onDropAvatar}>
                   {({getRootProps, getInputProps}) => (
                     <div {...getRootProps({ className: `dropzone "cursor-pointer rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500"` })}>
                       <input {...getInputProps()} />
@@ -226,8 +228,11 @@ export default function EditorForm (){
                   </div>
                 )}
               </Dropzone>
-              {previewCoverPath &&
+              {previewCoverPath ?
                 <Image src={previewCoverPath} alt='' height={150} width={174} />
+                :
+                (oldCoverImageUrl !== '') &&
+                <Image src={oldCoverImageUrl} alt='' height={150} width={174} />               
               }
             </div>
           </div>

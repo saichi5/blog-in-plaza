@@ -58,6 +58,20 @@ const Footer = () => {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </Link>
+
+        <Link
+          href="https://vast-taiga-81431-a093aeb315be.herokuapp.com"
+          className={styles.card}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2>
+            Started on Heroku <span>-&gt;</span>
+          </h2>
+          <p>
+          This is a sample Node application deployed to Heroku. 
+          </p>
+        </Link>
       </div>
       </nav>
     </footer>

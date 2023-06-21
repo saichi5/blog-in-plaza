@@ -39,6 +39,20 @@ export default function handler(
     if (req.method === 'DELETE'){
       const allUsers = JSON.parse(fs.readFileSync(process.env.NEXT_PUBLIC_USERS_PATH + '/users.json', "utf-8"));
       const allPass = JSON.parse(fs.readFileSync(process.env.NEXT_PUBLIC_USERS_PATH + '/pass.json', "utf-8"));
+      // delete avator image and cover image
+      allUsers.map((u) => {
+        if (u.id === userId){
+          if (u.profileImageUrl !== ""){
+            fs.unlink(process.env.NEXT_PUBLIC_ROOT_PATH + u.profileImageUrl,
+              (err) => {if(err) throw err});
+          }
+          if (u.coverImageUrl !== ""){
+            fs.unlink(process.env.NEXT_PUBLIC_ROOT_PATH + u.coverImageUrl,
+              (err) => {if(err) throw err});
+          }
+        }
+      })
+      // 
       const userIds = allUsers.map((u) => u.id);
       const passIds = allUsers.map((u) => u.id);
       allUsers.splice(userIds.indexOf(userId), 1);

@@ -13,8 +13,6 @@ import { uploadUserImage } from '@/utils/file-loading';
 export default function SignupForm (){
   const [ displayName, setDisplayName ] = useState('');
   const [ description, setDescription ] = useState('');
-  const [ profileImageUrl, setProfileImageUrl ] = useState('');
-  const [ coverImageUrl, setCoverImageUrl ] = useState('');
   
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -24,24 +22,24 @@ export default function SignupForm (){
 
   // ブラウザ表示用の paths
   const [previewCoverPath, setPreviewCoverPath] = useState<string>();
-  const [previewAvatorPath, setPreviewAvatorPath] = useState<string>();
+  const [previewAvatarPath, setPreviewAvatarPath] = useState<string>();
 
   // upload用の files
   const [cover, setCover] = useState<File>();
-  const [avator, setAvator] = useState<File>();
+  const [avatar, setAvatar] = useState<File>();
 
   //********************* 
   /** 選択された画像を処理 */
   //*********************
   // avator
-  const onDropAvator = (acceptedFiles: File[]) => {
+  const onDropAvatar = (acceptedFiles: File[]) => {
     // 引数で受け取れる値は、File型の配列なので upload用のstateへsetする
-    setAvator(acceptedFiles[0]);
+    setAvatar(acceptedFiles[0]);
     // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
     // @see https://developer.mozilla.org/ja/docs/Web/API/URL/createObjectURL
     const dataUrl = URL.createObjectURL(acceptedFiles[0]);
     // createObjectURLで生成された、ブラウザ表示用のURLをstateへsetする
-    setPreviewAvatorPath(dataUrl);
+    setPreviewAvatarPath(dataUrl);
   };
 
   // cover picture
@@ -63,7 +61,7 @@ export default function SignupForm (){
     // @see https://developer.mozilla.org/ja/docs/Web/API/FormData/Using_FormData_Objects
     const formData = new FormData();
     // append の第一引数はバックエンドと合わせる
-    formData.append('image', file, file.name);
+    formData.append('images', file, file.name);
 
     return formData;
   };
@@ -78,13 +76,16 @@ export default function SignupForm (){
     try {
       const newUserId = await getNewUserId(email as string, password, password2);
 
-      let formData = buildFormData(cover);
-      let res = await uploadUserImage( formData );
-      setCoverImageUrl( '/pictures/users/' + res ?? '');
-      formData = buildFormData(avator);
-      res = await uploadUserImage( formData );
-      setProfileImageUrl( '/pictures/users/' + res ?? '');
+      let formData: FormData;
+      // cover image
+      formData = buildFormData(cover);
+      const resCover = await uploadUserImage( formData );
+      const coverImageUrl = resCover?.url ?? '';
 
+      // avatar image
+      formData = buildFormData(avatar);
+      const resAvator = await uploadUserImage( formData );
+      const profileImageUrl = resAvator?.url ?? '';
 
       const newUser: User = {
         id: newUserId,
@@ -173,12 +174,12 @@ export default function SignupForm (){
                 アバター
               </label>
               <div  className="mt-2 flex items-center gap-x-3">
-              {previewAvatorPath ? (
-                    <Image src={previewAvatorPath} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
+              {previewAvatarPath ? (
+                    <Image src={previewAvatarPath} alt='' height={0} width={0} className="h-12 w-12 rounded-full text-gray-300" aria-hidden="true" />
               ) : (
                   <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
               )}
-                <Dropzone onDrop={onDropAvator}>
+                <Dropzone onDrop={onDropAvatar}>
                   {({getRootProps, getInputProps}) => (
                     <div {...getRootProps({ className: `dropzone "cursor-pointer rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500"` })}>
                       <input {...getInputProps()} />
