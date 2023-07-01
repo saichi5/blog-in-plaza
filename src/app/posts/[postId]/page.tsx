@@ -35,7 +35,6 @@ export default async function PostPage({ params }: PostProps) {
           更新日 {format(parseISO(post.updatedAt), 'LLLL d, yyyy')}
        </time>
        }
-       <h4>要旨</h4>
        <p>
          {post.description && <p className="text-xl">{post.description}</p>}
        </p>

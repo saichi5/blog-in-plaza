@@ -37,7 +37,11 @@ export default function PostCard(props: PostCardProps) {
               <span className="absolute inset-0" />
             </Link>
           </h3>
-          <p className="mt-5 line-clamp-3 text-sm leading-6">{post.description}</p>
+          {post.description ? 
+            <p className="mt-5 line-clamp-3 text-sm leading-6">{post.description}</p>
+            :
+            <p className="mt-5 line-clamp-3 text-sm leading-6">{(post.body).slice(0, 80)}</p>           
+          }
         </div>
         <div className="relative mt-5 mb-0 flex items-center gap-x-4">
           
