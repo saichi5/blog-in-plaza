@@ -3,9 +3,13 @@ import { Metadata } from "next"
 import { allPages } from "contentlayer/generated"
 import { format, parseISO } from 'date-fns';
 import { Mdx } from "@/components/mdx-components"
-import { SlugPageProps } from "@/data";
 import Header from "@/components/organisms/header";
 import { UserProvider } from "@/components/user-context";
+
+interface SlugPageProps {
+  params: { slug: string[] };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
 async function getPageFromParams(params: SlugPageProps['params']) {
   const slug = params?.slug?.join("/")

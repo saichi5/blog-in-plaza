@@ -5,12 +5,12 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import type { FormEvent } from 'react';
-import { saveOldUser } from '@/utils/data-fetch';
+import { setUser } from '@/lib/database-functions';
 import { useUser } from '@/components/user-context';
 import Image from "next/image";
 import moment from 'moment';
 import Dropzone from 'react-dropzone';
-import { uploadUserImage } from '@/utils/file-loading';
+import { uploadUserImage } from '@/lib/file-loading';
 
 export default function EditorForm (){
 
@@ -108,19 +108,9 @@ export default function EditorForm (){
           description: description,
           createdAt: user.createdAt,
           updatedAt: dateString,
-          followIds: user.followIds,
-          commentIds: user.commentIds,
-          likes: {
-            postIds: user.likes?.postIds,
-            commentIds: user.likes?.commentIds
-          },
-          dislikes: {
-            postIds: user.dislikes?.postIds,
-            commentIds: user.dislikes?.commentIds
-          }
         };
   
-        await saveOldUser( oldUser );
+        await setUser( oldUser );
   
         window.location.replace(backPath ?? '/');
 

@@ -3,12 +3,12 @@
 import type { Pass, User } from '@/data';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { useState, type FormEvent } from 'react';
-import { saveNewUser, getNewUserId } from '@/utils/data-fetch';
+import { getNewUserId, setUser } from '@/lib/database-functions';
 import { setCookie } from "cookies-next";
 import Image from "next/image";
 import moment from 'moment';
 import Dropzone from 'react-dropzone';
-import { uploadUserImage } from '@/utils/file-loading';
+import { uploadUserImage } from '@/lib/file-loading';
 
 export default function SignupForm (){
   const [ displayName, setDisplayName ] = useState('');
@@ -74,7 +74,8 @@ export default function SignupForm (){
     const dateString = moment().format('YYYY-MM-DD');
 
     try {
-      const newUserId = getNewUserId(email as string, password, password2);
+      const newUserId = await getNewUserId(email as string, password, password2)
+      if (!newUserId) throw new Error()
 
       let formData: FormData;
       // cover image
@@ -96,26 +97,15 @@ export default function SignupForm (){
         description: description,
         createdAt: dateString,
         updatedAt: "",
-        followIds: undefined,
-        commentIds: undefined,
-        likes: {
-          postIds: undefined,
-          commentIds: undefined
-        },
-        dislikes: {
-          postIds: undefined,
-          commentIds: undefined
-        }
       };
   
       const pass: Pass = {
-        id: newUserId,
         password: password
       }
   
-      await saveNewUser( newUser, pass );
+      await setUser( newUser, pass )
   
-      if (!!newUser.id){
+      if (newUser.id){
         setCookie('bipId', newUser.id);
         window.location.replace('/');
       }

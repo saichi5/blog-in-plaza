@@ -17,7 +17,7 @@ export default function handler(req, res) {
       if (err) return res.status(500).send(err)
 
       if (fields.oldFilename){
-        fs.unlink('./public/' + fields.oldFilename,
+        fs.unlink('./public' + fields.oldFilename,
         (e) => {if(e) throw e})
       }
       const imageFile = files.images[0]
@@ -25,9 +25,9 @@ export default function handler(req, res) {
       const fileName = `${Date.now()}-${imageFile.originalFilename}`
       try {
         // ファイルを保存する
-        writeFile(`./public/pictures/users/${fileName}`, fs.readFileSync(imageFile.filepath))
+        writeFile(`./public/assets/pictures/${fileName}`, fs.readFileSync(imageFile.filepath))
         // 保存したファイル名をレスポンスとして返す
-        const url = "/pictures/users/" + fileName;
+        const url = "/assets/pictures/" + fileName;
         res.status(200).json({ url: url })
       } catch (e) {
         console.error(e)

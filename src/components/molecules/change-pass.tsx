@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import type { FormEvent } from 'react';
-import { changePass } from '@/utils/data-fetch';
+import { changePass } from '@/lib/database-functions';
 import { useUser } from '@/components/user-context';
 
 export default function ChangePassword (){
@@ -23,7 +23,8 @@ export default function ChangePassword (){
     e.preventDefault();
 
     try {
-        await changePass( user?.id as string, oldPassword, password, password2 );
+      if (!user) throw new Error('Unauthorized')
+      await changePass( user.id, oldPassword, password, password2 );
         window.location.replace(backPath ?? '/');
     }catch( error ){
       const err = error as Error;

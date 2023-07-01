@@ -14,6 +14,7 @@ const Footer = () => {
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
+          passHref
         >
           <h2>
             Docs <span>-&gt;</span>
@@ -26,6 +27,7 @@ const Footer = () => {
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
+          passHref
         >
           <h2>
             Learn <span>-&gt;</span>
@@ -38,6 +40,7 @@ const Footer = () => {
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
+          passHref
         >
           <h2>
             Templates <span>-&gt;</span>
@@ -50,6 +53,7 @@ const Footer = () => {
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
+          passHref
         >
           <h2>
             Deploy <span>-&gt;</span>
@@ -59,19 +63,6 @@ const Footer = () => {
           </p>
         </Link>
 
-        <Link
-          href="https://vast-taiga-81431-a093aeb315be.herokuapp.com"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Started on Heroku <span>-&gt;</span>
-          </h2>
-          <p>
-          This is a sample Node application deployed to Heroku. 
-          </p>
-        </Link>
       </div>
       </nav>
     </footer>

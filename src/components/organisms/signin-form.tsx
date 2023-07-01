@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getUserId } from "@/utils/data-fetch";
+import { getUserId } from "@/lib/database-functions";
 import { setCookie } from "cookies-next";
 
 export default function SigninForm() {
@@ -16,24 +16,22 @@ export default function SigninForm() {
   const [ password, setPassword ] = useState('');
   const [ errorMessage, setErrorMessage ] = useState('');
 
-  const handleSubmit = ( e: FormEvent<HTMLFormElement> ) => {
+  const handleSubmit = async ( e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
 
-    let userId: string | undefined;
-
     try {
+      const userId = await getUserId( email, password );
 
-      userId = getUserId( email, password );
+      if (userId){
+        setCookie('bipId', userId);
+        window.location.replace(backPath ?? '/');
 
-    }catch( error ){
+      }
+    } catch ( error ) {
       const err = error as Error;
       setErrorMessage(err.message);
     }
-
-    if (!!userId){
-      setCookie('bipId', userId);
-      window.location.replace(backPath ?? '/');
-    }
+ 
   }
 
   return (

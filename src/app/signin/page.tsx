@@ -11,7 +11,7 @@ export default function Signin() {
           <Image
             height={0} width={0}
             className="mx-auto h-20 w-auto rounded"
-            src="/pictures/nico2.jpg"
+            src="/assets/pictures/nico2.jpg"
             alt=""
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

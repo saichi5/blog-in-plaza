@@ -21,9 +21,9 @@ export default function Navibar2( props: {
 
   const navigation = [
     { name: 'みんなの広場', href: '/', current: false },
-    { name: 'Myブログ', href: '/' + authUser?.id, current: false },
-    { name: 'フォロー', href: '/pages/construction', current: false },
-    { name: 'お知らせ', href: '/pages/construction2', current: false },
+    { name: 'Myブログ', href: '/users/' + authUser?.id, current: false },
+    { name: 'フォロー', href: '/pages/followers', current: false },
+    { name: 'お知らせ', href: '/pages/information', current: false },
   ]
   if (!authUser){
     navigation.splice(1, 2);

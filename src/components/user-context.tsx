@@ -3,18 +3,31 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { User } from '@/data';
 import { getCookie } from 'cookies-next';
-import allUsers from 'public/personal/users.json' assert {type: 'json'}
+import { getUser } from '@/lib/database-functions';
 
-const UserContext = createContext<User | undefined>(undefined);
+const UserContext = createContext<User | null>(null);
 
 export function UserProvider({ children }: {children: React.ReactNode}) {
-  const [data, setData] = useState<User | undefined>(undefined);
+  const [data, setData] = useState<User | null>(null);
 
   useEffect(() => {
     const userId = getCookie('bipId') as string;
-      const user = allUsers.find((u) => u.id === userId)
-    setData(user);
-  },[]);
+
+    async function fetchData() {
+      try {
+        // Call your asynchronous function here
+        const user = await getUser(userId);
+
+        // Once the response is received, update the state
+        setData(user);
+      } catch (error) {
+        // Handle any errors that occur during the async operation
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []); // The empty dependency array ensures the effect runs only once
 
 
   return (

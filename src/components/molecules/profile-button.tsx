@@ -51,7 +51,7 @@ export default function ProfileButton({ currentPath }
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href={'/dashboad' + back}
+                  href={'/account' + back}
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   アカウント設定
@@ -61,7 +61,7 @@ export default function ProfileButton({ currentPath }
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/pages/construction3"
+                  href="/pages/usage"
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   利用方法
@@ -71,7 +71,7 @@ export default function ProfileButton({ currentPath }
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/pages/construction4"
+                  href="/pages/markdown"
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   マークダウン記法

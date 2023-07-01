@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteOldUser } from "@/utils/data-fetch";
+import { deleteOldUser } from "@/lib/database-functions";
 import { useUser } from "@/components/user-context";
 import { deleteCookie } from "cookies-next";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export default function DeleteUser(){
     setShow(false)
 
     try {
-      user && await deleteOldUser(user);
+      user && await deleteOldUser(user.id);
       deleteCookie('bipId');
       window.location.replace('/');
     } catch ( error ){
