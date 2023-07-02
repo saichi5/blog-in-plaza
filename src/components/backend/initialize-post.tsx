@@ -6,10 +6,11 @@ import { setPost } from '@/lib/database-functions'
 import { dummyPosts } from '@/dummy-posts';
 import { p20230302, p2023030201, p20230701 } from '@/jaro-posts';
 import { p20230601u1 } from '@/taketo-posts';
+import { p20230702u2 } from '@/takuya';
 
 export default function DummyPost (){
   //const posts: Post[] = dummyPosts
-  const posts: Post[] = [p20230302, p2023030201, p20230701, p20230601u1]
+  const posts: Post[] = [p20230302, p2023030201, p20230701, p20230601u1, p20230702u2]
 
   // submit時に呼び出される
   const handleSubmit = async ( e: FormEvent<HTMLFormElement> ) => {

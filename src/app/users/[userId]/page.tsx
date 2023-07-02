@@ -4,6 +4,8 @@ import { UserProvider } from "@/components/user-context";
 import { format, parseISO } from 'date-fns';
 import Image from "next/image";
 import { getUser, getPosts } from "@/lib/database-functions";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface PageProps {
   params: {
@@ -39,7 +41,9 @@ export default async function UserRoot({ params }: PageProps) {
               </time> 
             }
             <p className="mt-2 text-lg leading-8">
-              {user.description}
+              <ReactMarkdown rehypePlugins={[remarkGfm]}>
+                {user.description ?? ''}
+              </ReactMarkdown>
             </p>
           </div>
         }
