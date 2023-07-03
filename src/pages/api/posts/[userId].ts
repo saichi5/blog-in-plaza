@@ -16,17 +16,13 @@ export default async function handler(
             rev: true   // dec order
         })
 
-        if (!posts.length) {
-          response.json([])
-        } else {
-          for (const post of posts) {
-            pipeline.hgetall<Post>(post)
-          }
+        for (const post of posts) {
+          pipeline.hgetall<Post>(post)
+        }
       
-          const results = await pipeline.exec()
+        const results = await pipeline.exec()
   
-          response.json( results as Post[] )
-          }
+        response.json( results as Post[] )
     
       } catch (error) {
         response.json([])

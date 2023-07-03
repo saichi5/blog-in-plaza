@@ -99,7 +99,6 @@ export async function getUser(id: string): Promise<User | null> {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'no-store'
   })
   return user
 }
@@ -122,7 +121,6 @@ export async function getPass(id: string): Promise<string | null> {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'no-store'
   })
   return password
 }
@@ -179,7 +177,7 @@ Promise<Post[]> {
     })
 
   } else {
-    posts = await fetcher(`/api/all-posts`, {
+    posts = await fetcher('/api/all-posts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -193,6 +191,7 @@ Promise<Post[]> {
   }
   return []
 }
+
 
 export async function setPost(post: Post): Promise<void>{
   const res = await fetcher(`/api/post/${post.id}`, {
@@ -211,7 +210,6 @@ export async function getPost(id: string): Promise<Post | null> {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'no-store'
   })
   return post
 }

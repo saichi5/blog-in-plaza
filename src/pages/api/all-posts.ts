@@ -4,7 +4,8 @@ import type { Post } from '@/data'
 
 export default async function handler(
   request: NextApiRequest,
-  response: NextApiResponse) {
+  response: NextApiResponse
+  ) {
 
     if (request.method === 'GET'){
 
@@ -15,17 +16,13 @@ export default async function handler(
             rev: true   // dec order
         })
         
-        if (!posts.length) {
-          response.json([])
-        } else {
-          for (const post of posts) {
-            pipeline.hgetall<Post>(post)
-          }
-      
-          const results = await pipeline.exec()
-      
-          response.json(results as Post[])
+        for (const post of posts) {
+          pipeline.hgetall<Post>(post)
         }
+      
+        const results = await pipeline.exec()
+      
+        response.json(results as Post[])
     
       } catch (error) {
         response.json([])
