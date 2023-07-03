@@ -26,7 +26,7 @@ export const p2023030201: Post = {
   id: "p20230302-1",
   title: "ヘッダー画像をStable Diffusion で作った。",
   description: "",
-  body: "マイページのヘッダー画像を画像生成AIのStable Diffusionで作ってみました。Deep Learning をイメージした絵をリクエストしたのですが、どうでしょうか？\n\n![](/assets/pictures/ダウンロード.jfif)ちなみに入力した呪文は以下のとおりです。\n\nPicture on my blog title screen. This blog is based on Deep Learning.\n\nニューラルネットのイメージから来たのだと思います。\n\nしばらくはこの画像で我慢してください。\n\n(Stable Diffusion: https://huggingface.co/spaces/stabilityai/stable-diffusion)",
+  body: "マイページのヘッダー画像を画像生成AIのStable Diffusionで作ってみました。Deep Learning をイメージした絵をリクエストしたのですが、どうでしょうか？\n\n![](/assets/pictures/ダウンロード.jfif)ちなみに入力した呪文は以下のとおりです。\n\nPicture on my blog title screen. This blog is based on Deep Learning.\n\nニューラルネットのイメージから来たのだと思います。\n\nしばらくはこの画像で我慢してください。\n\n([Stable Diffusion](https://huggingface.co/spaces/stabilityai/stable-diffusion))",
   createdAt: "2023-03-02",
   updatedAt: "",
   publishedAt: "2023-03-02",
