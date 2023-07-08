@@ -43,9 +43,9 @@ export const p2023030201: Post = {
 
 export const p20230701: Post = {
   id: "p20230701",
-  title: "remark-gfm",
-  description: "表示例",
-  body: "# GFM\n## Autolink literals\n\nwww.example.com, https://example.com, and contact@example.com.\n\n## Footnote\n\nA note[^1]\n\n[^1]: Big note.\n\n## Strikethrough\n\n~one~ or ~~two~~ tildes.\n\n## Table\n\n| a | b  |  c |  d  |\n\n| - | :- | -: | :-: |\n\n## Tasklist\n\n* [ ] to do\n\n* [x] done",
+  title: "マークダウン表示例",
+  description: "チートシートと実際の表示が一致しているか",
+  body: "## １．見出し\n\n# 見出し１\n## 見出し２\n### 見出し３\n#### 見出し４\n##### 見出し５\n###### 見出し６\n\n## ２．段落\n空白行を入れることで、段落となります。\n\n空白行を入れる前\n\nドッグランのご利用は、マナーを守って\n皆様が気持ちよく利用できるようご協力を．．．\n\n空白行を入れた後\n\nドッグランのご利用は、マナーを守って\n\n皆様が気持ちよく利用できるようご協力を．．．\n\n## ３．改行\n\n文章の最後に半角スペースを２つ以上入力することで改行されます。\n\n半角スペースを入れる前\n\nドッグランのご利用は、マナーを守って\n皆様が気持ちよく利用できるようご協力を．．．\n\n半角スペースを入れた後\n\nドッグランのご利用は、マナーを守って  \n皆様が気持ちよく利用できるようご協力を．．．\n\n## ４．文字の装飾(イタリック、太文字、取り消し線)\n\n*アスタリスク１個でイタリック*\n\n**アスタリスク２個で太文字**\n\n~~波線２個で取り消し線~~\n\n## ５．リンク\n\n[ヤフージャパン](https://www.yahoo.co.jp/)\n\n## ６．画像の埋め込み、ファイルの挿入\n\n![じゃろ](https://blog-in-plaza-rho.vercel.app/assets/pictures/u4.jpg)\n\n## ７．水平線\n\n---\n___\n***\n\n## ８．引用\n\n>これは引用文です。\n\n## ９．リスト\n\n箇条書きリスト：\n\n* 項目\n* 項目\n* 項目\n\n番号付きリスト：\n\n1. 項目\n1. 項目\n1. 項目\n\nチェックリスト：\n\n* [ ] 項目\n* [x] 項目\n* [ ] 項目\n\n## １０．文字色の変更\n\nMarkdown記法では、テキストカラーの変更は対応していないため、文字色を変えるためには、直接HTMLタグを記述する必要があります。\n\n夕焼け空が<span style='color:red'>赤い</span>のは、太陽が遠ざかり、波長の短い<span style='color:blue'>青</span>が散乱するから\n\n## １１．中央揃え\n\n文を中央に配置することができます。\n\n<center>中央揃え</center>\n\n## １２．コードの挿入\n\nコードのような等間隔文字を挿入できます。\n\n```TypeScript:function.ts\n# コード\nimport type { Post } from '@/data'\n\nexport default function (params){\n\tconst id = params.id;\n\treturn (something);\n}\n```\n",
   createdAt: "2023-07-01",
   updatedAt: "",
   publishedAt: "2023-07-01",
@@ -59,3 +59,7 @@ export const p20230701: Post = {
     profileImageUrl: jaro.profileImageUrl
   }
 }
+
+/*
+# １０．文字色の変更\n\nMarkdown記法では、テキストカラーの変更は対応していないため、文字色を変えるためには、直接HTMLタグを記述する必要があります。\n\n夕焼け空が\n\`\`\`\n<span style="color:red">赤い</span>\n\`\`\`\nのは、太陽が遠ざかり、波長の短い\n\`\`\`\n<span style="color:blue">青</span>\n\`\`\`\nが散乱するから\n\n# １１．中央揃え\n\n文を中央に配置することができます。\n\n\`\`\`\n<span style="text-align: center;">中央揃え</span>\n\`\`\`\n
+*/

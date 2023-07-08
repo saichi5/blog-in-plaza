@@ -17,7 +17,7 @@ const takuya: User = {
   email:"takuya@example.com",
   profileImageUrl:"/assets/pictures/u2.png",
   coverImageUrl:"/assets/pictures/c2.jpg",
-  description:"「アラフィフの生き方ブログ|丁寧に生きる、あんさん流」に\nご訪問くださりありがとうございます。\n2019年2月フリーランスに転身しました。\nええ\nなんの取り柄もない\nどこにでもいる普通の女性でした。\nそんな私が中道あんとして仕事をすることができたのは間違いなくブログのおかげです。",
+  description:"「アラフィフの生き方ブログ|丁寧に生きる、**<span style='color:green;'>あんさん流</span>**」に\n\nご訪問くださりありがとうございます。\n\n2019年2月フリーランスに転身しました。  \nええ  \nなんの取り柄もない  \nどこにでもいる**普通の女性**でした。\n\nそんな私が中道あんとして仕事をすることができたのは間違いなくブログのおかげです。",
   createdAt:"2023-06-08",
   updatedAt:"2023-06-14"
 }

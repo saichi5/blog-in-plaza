@@ -1,0 +1,60 @@
+  table {
+    border: solid;
+    border-color: darkgray;
+    border-radius:4%;
+  }
+  .item {
+    width:24em;
+    text-align: left;
+  }
+  span.underline {
+    text-decoration:underline;
+  }
+  span.red {
+    color:red;
+  }
+  .line {
+    line-height: 50%;
+  }
+  .italic {
+    font-style: italic;
+  }
+  blockquote {
+    position: relative;
+    margin: 2em 0;
+    padding: 0.5em 0.5em 1em 1.3em;
+    font-size: 1em;
+    border-left: 5px solid #CCC;
+    border-radius: 2px;
+  }
+  ul.list, ol.list {
+    color: gray;
+    text-align: left;
+    margin-left: 24px;
+    padding-left: 0;
+  }
+  code.box {
+    background-color: black;
+    display: inline-block;
+    padding-left: 0px;
+    margin-left: -20px;
+    color: white; /* 文字色 */
+    font-family: Consolas, Menlo, Monaco, -apple-system, BlinkMacSystemFont, "Segoe UI", Meiryo, monospace;
+  }
+  pre.box {
+    margin-left: 0px;
+    padding-left: 0px;
+    border-radius: 5px; /* 角丸 */
+    background: #25292f; /* 背景色 */
+    color: #fff; /* 文字色 */
+  }
+  .fixed {
+    position: fixed;
+    z-index: 50;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    background: transparent;
+    border-radius: 46%;
+    border-color: transparent;
+  }

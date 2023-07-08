@@ -2,10 +2,9 @@
 
 import { format, parseISO } from 'date-fns';
 import { getPost } from "@/lib/database-functions";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import remarkGfm from "remark-gfm";
 import { useState, useEffect } from 'react';
 import type { Post } from '@/data';
+import MarkdownViewer from '../atoms/markdown-viewer';
 
 export default function Post(props: { postId: string }) {
   const postId = props.postId
@@ -36,14 +35,14 @@ export default function Post(props: { postId: string }) {
           更新日 {format(parseISO(post.updatedAt), 'LLLL d, yyyy')}
        </time>
        }
-       <p>
-         {post && post.description && <p className="text-xl">{post.description}</p>}
-       </p>
+      {post && post.description && 
+        <p className="text-xl">
+          <MarkdownViewer contents={post.description} />
+        </p>
+       }
        <hr />
        {post &&
-       <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {post.body}
-       </ReactMarkdown>
+       <MarkdownViewer contents={post.body} />
        }
       </article>
   )

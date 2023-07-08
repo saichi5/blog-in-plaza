@@ -77,20 +77,36 @@ export async function getUsers() {
   return users
 }
 
-export async function setUser(user: User, pass?: Pass): Promise<void>{
-  const userWithPass = {
-    user: user,
-    pass: pass
-  }
+export async function setUser(user: User): Promise<void>{
 
   const res = await fetcher(`/api/user/${user.id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(userWithPass)
+    body: JSON.stringify(user)
   })
   console.log(res)
+}
+
+export async function setUserWithPass(user: User, pass: Pass): Promise<void>{
+  const resUser = await fetcher(`/api/user/${user.id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user)
+  })
+  console.log(resUser)
+  
+  const resPass = await fetcher(`/api/pass/${user.id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(pass)
+  })
+  console.log(resPass)
 }
 
 export async function getUser(id: string): Promise<User | null> {

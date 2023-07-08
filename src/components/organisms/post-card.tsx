@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import Link from "next/link";
 import Image from "next/image";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import MarkdownViewer from "../atoms/markdown-viewer";
 
 type PostCardProps = {
   post: Post;
@@ -38,9 +39,13 @@ export default function PostCard(props: PostCardProps) {
             </Link>
           </h3>
           {post.description ? 
-            <p className="mt-5 line-clamp-3 text-sm leading-6">{post.description}</p>
+            <p className="mt-5 line-clamp-3 text-sm leading-6">
+              <MarkdownViewer contents={post.description.slice(0, 80)} />
+            </p>
             :
-            <p className="mt-5 line-clamp-3 text-sm leading-6">{(post.body).slice(0, 80)}</p>           
+            <p className="mt-5 line-clamp-3 text-sm leading-6">
+              <MarkdownViewer contents={(post.body).slice(0, 80)} />
+            </p>           
           }
         </div>
         <div className="relative mt-5 mb-0 flex items-center gap-x-4">

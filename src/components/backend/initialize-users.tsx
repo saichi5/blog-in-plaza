@@ -2,7 +2,7 @@
 
 import { type FormEvent } from 'react';
 import type { Pass, User } from '@/data';
-import { setUser } from '@/lib/database-functions'
+import { setUserWithPass } from '@/lib/database-functions'
 import { initialUsers } from '@/initialUsers';
 
 export default function InitializeUsers (){
@@ -17,7 +17,7 @@ export default function InitializeUsers (){
     try {
   
       for (const user of users) {
-        await setUser( user, pass )
+        await setUserWithPass( user, pass )
       } 
   
     }catch( error ){

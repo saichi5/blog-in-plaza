@@ -15,11 +15,11 @@ export default async function handler(
       }
     }
 
-    if (request.method === 'PUT'){
+    if (request.method === 'POST' || request.method === 'PUT'){
       const pass = request.body
       try {
         await kv.hmset(`pass:${passId}`, pass)
-        response.end(`PUT: ${passId}`)
+        response.end(`POST/PUT: ${passId}`)
         } catch {
           response.errored
       }

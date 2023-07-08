@@ -11,6 +11,7 @@ import Image from "next/image";
 import moment from 'moment';
 import Dropzone from 'react-dropzone';
 import { uploadUserImage } from '@/lib/file-loading';
+import MarkdownPreview from '@/components/atoms/markdown-preview';
 
 export default function EditorForm (){
 
@@ -99,20 +100,20 @@ export default function EditorForm (){
       const resAvator = await uploadUserImage( formData );
       const profileImageUrl = resAvator?.url !== '' ? resAvator?.url : oldProfileImageUrl;
 
-        const oldUser: User = {
-          id: user.id,
-          displayName: displayName as string,
-          email: user.email,
-          profileImageUrl: profileImageUrl,
-          coverImageUrl: coverImageUrl,
-          description: description,
-          createdAt: user.createdAt,
-          updatedAt: dateString,
-        };
+      const oldUser: User = {
+        id: user.id,
+        displayName: displayName as string,
+        email: user.email,
+        profileImageUrl: profileImageUrl,
+        coverImageUrl: coverImageUrl,
+        description: description,
+        createdAt: user.createdAt,
+        updatedAt: dateString,
+      };
+
+      await setUser( oldUser );
   
-        await setUser( oldUser );
-  
-        window.location.replace(backPath ?? '/');
+      window.location.replace(backPath ?? '/');
 
   
     }catch( error ){
@@ -142,16 +143,28 @@ export default function EditorForm (){
                     onChange={(e) => setDisplayName(e.target.value)}
                     autoComplete="displayName"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="blog name"
                   />
                 </div>
               </div>
             </div>
             {/* description  */}
             <div className="col-span-full">
-              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                ひとことお願いします
-              </label>
+              <div className='flex'>
+                <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                  ひとことお願いします
+                </label>
+                <div
+                  onClick={() => {
+                    window.open('/markdown-cheet-sheet.html',
+                      '_blank',
+                      'width=512, height=512'
+                    )
+                  }}
+                  className='relative text-xs text-gray-700 m-auto cursor-pointer rounded-md bg-white focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2'
+                >
+                マークダウン記法&nbsp;<span>-&gt;</span>
+                </div>
+              </div>
               <div className="mt-2">
                 <textarea
                   id="description"
@@ -161,6 +174,9 @@ export default function EditorForm (){
                   onChange={(e) => setDescription(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+              </div>
+              <div className='ml-3'>
+                <MarkdownPreview contents={description} />
               </div>
             </div>
             {/* profileImageUrl  */}
@@ -235,7 +251,7 @@ export default function EditorForm (){
           type="submit"
           className="rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          更新
+          プロフィール更新
         </button>
       </div>
     </form>

@@ -23,7 +23,7 @@ export default function ProfileButton({ currentPath }
     {/* Profile dropdown */}
       <Menu as="div" className="relative ml-3">
         <div>
-          <Menu.Button className="flex rounded-full bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+          <Menu.Button className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span className="sr-only">Open user menu</span>
             {
               authUser && authUser.profileImageUrl ?
@@ -70,12 +70,17 @@ export default function ProfileButton({ currentPath }
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <Link
-                  href="/pages/markdown"
-                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                <button
+                  onClick={() => {
+                    window.open('/markdown-cheet-sheet.html',
+                      '_blank',
+                      'width=512, height=512'
+                    )
+                  }}
+                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-y text-sm text-gray-700')}
                 >
-                  マークダウン記法
-                </Link>
+                  マークダウン記法&nbsp;<span>-&gt;</span>
+                </button>
               )}
             </Menu.Item>
             <Menu.Item>

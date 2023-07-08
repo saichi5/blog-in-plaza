@@ -1,19 +1,18 @@
 import { Inter } from "next/font/google"
 import { Analytics } from "@/components/analytics"
-import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "広場でブログ",
-  description: "Signup page.",
+  description: "Signin page.",
 }
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
-export default function SignupLayout({ children }: LayoutProps) {
+export default function SigninLayout({ children }: LayoutProps) {
   return (
     <html lang="ja" className="h-full">
       <body

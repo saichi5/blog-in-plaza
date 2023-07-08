@@ -4,10 +4,9 @@ import PostCard from "@/components/organisms/post-card";
 import { format, parseISO } from 'date-fns';
 import Image from "next/image";
 import { getUser, getPosts } from "@/lib/database-functions";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import remarkGfm from "remark-gfm";
 import { useState, useEffect } from "react";
 import type { User, Post } from "@/data";
+import MarkdownViewer from "../atoms/markdown-viewer";
 
 export default function UserPosts(props: { userId: string }) {
   const userId = props.userId
@@ -50,9 +49,7 @@ export default function UserPosts(props: { userId: string }) {
               </time> 
             }
             <p className="mt-2 text-lg leading-8">
-              <ReactMarkdown rehypePlugins={[remarkGfm]}>
-                {user.description ?? ''}
-              </ReactMarkdown>
+              <MarkdownViewer contents={user.description ?? ''} />
             </p>
           </div>
         }

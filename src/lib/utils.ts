@@ -17,7 +17,7 @@ export async function fetcher<JSON = any>(
   ): Promise<JSON | null> {
 
     try {
-      const res = await fetch((process.env.LOCALHOST_URL ?? '') + input, init)
+      const res = await fetch(input, init)
 
       const json = await res.json()
     

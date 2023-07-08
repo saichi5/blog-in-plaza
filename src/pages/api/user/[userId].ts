@@ -25,9 +25,7 @@ export default async function handler(
     }
 
     if (request.method === 'POST' || request.method === 'PUT' ){
-       const userWithPass = Object.entries(request.body)
-       const user = userWithPass[0][1]
-       const pass = userWithPass[1][1]
+       const user = request.body
        
       try {
         await kv.hmset(`user:${userId}`, user as User)
@@ -36,7 +34,6 @@ export default async function handler(
           member: `user:${userId}`
         })
 
-        if (pass){ await kv.hmset(`pass:${userId}`, pass as Pass)}
         response.end('POST/PUT: ' + userId)
       } catch (error) {
         console.log(`error: ${error}`)

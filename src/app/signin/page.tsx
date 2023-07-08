@@ -1,11 +1,16 @@
 import Image from "next/image";
 import SigninForm from "@/components/organisms/signin-form";
 import FloatingCancelButton from "@/components/atoms/floating-cancel-button";
+import { Suspense } from 'react'
+
+function Loading() {
+  return <div>Loading...</div>
+}
 
 export default function Signin() {
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
@@ -23,6 +28,6 @@ export default function Signin() {
         </div>
       </div>
       <FloatingCancelButton />
-    </>
+    </Suspense>
   )
 }

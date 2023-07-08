@@ -4,13 +4,18 @@ import ChangePassword from "@/components/molecules/change-pass";
 import Email from "@/components/atoms/email";
 import FloatingCancelButton from "@/components/atoms/floating-cancel-button";
 import EditorForm from "@/components/organisms/editor-form";
+import { Suspense } from 'react'
+
+function Loading() {
+  return <div>Loading...</div>
+}
 
 // export const revalidate = 60 // revalidate this page every 60 seconds
 
 export default function ProfilePage() {
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <UserProvider>
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           メールアドレス
@@ -27,6 +32,6 @@ export default function ProfilePage() {
         <DeleteUser />
         <FloatingCancelButton />
       </UserProvider>
-    </>
+    </Suspense>
   )
 }

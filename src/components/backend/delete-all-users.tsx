@@ -17,6 +17,9 @@ export default function DeleteAllUsers (){
       for (const user of users) {
         await deleteOldUser(user.id)
       } 
+//        await deleteOldUser('nico')
+//        await deleteOldUser("BEI1688691267086")
+        
   
     }catch( error ){
       console.log(error)
