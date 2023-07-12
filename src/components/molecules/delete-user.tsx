@@ -1,13 +1,13 @@
 'use client'
 
 import { deleteOldUser } from "@/lib/database-functions";
-import { useUser } from "@/components/user-context";
+import { useAuthUser } from "@/components/auth-user-context";
 import { deleteCookie } from "cookies-next";
 import { useState } from "react";
 import DeactivateModal from "@/components/molecules/deactivate-modal";
 
 export default function DeleteUser(){
-  const user = useUser();
+  const authUser = useAuthUser();
   const [ errorMessage, setErrorMessage ] = useState('');
   const [ show, setShow ] = useState(false)
 
@@ -15,7 +15,7 @@ export default function DeleteUser(){
     setShow(false)
 
     try {
-      user && await deleteOldUser(user.id);
+      authUser && await deleteOldUser(authUser.id);
       deleteCookie('bipId');
       window.location.replace('/');
     } catch ( error ){

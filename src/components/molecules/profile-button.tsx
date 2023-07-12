@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from "next/link";
 import { deleteCookie } from 'cookies-next';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { useUser } from '@/components/user-context';
+import { useAuthUser } from '@/components/auth-user-context';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -16,7 +16,7 @@ export default function ProfileButton({ currentPath }
   : { currentPath: string;}) {
 
   const back = '?back=' + currentPath;
-  const authUser = useUser();
+  const authUser = useAuthUser();
 
   return (
     <>
@@ -61,7 +61,7 @@ export default function ProfileButton({ currentPath }
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/pages/usage"
+                  href="/stat/usage"
                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                 >
                   利用方法
@@ -72,7 +72,7 @@ export default function ProfileButton({ currentPath }
               {({ active }) => (
                 <button
                   onClick={() => {
-                    window.open('/markdown-cheet-sheet.html',
+                    window.open('/markdown-cheat-sheet.html',
                       '_blank',
                       'width=512, height=512'
                     )

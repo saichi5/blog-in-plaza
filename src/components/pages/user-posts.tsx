@@ -6,20 +6,34 @@ import Image from "next/image";
 import { getUser, getPosts } from "@/lib/database-functions";
 import { useState, useEffect } from "react";
 import type { User, Post } from "@/data";
-import MarkdownViewer from "../atoms/markdown-viewer";
+import MarkdownViewer from "@/components/atoms/markdown-viewer";
+import { useAuthUser } from "@/components/auth-user-context";
 
 export default function UserPosts(props: { userId: string }) {
   const userId = props.userId
+  const authUser = useAuthUser()
 
   const [ user, setUser ] = useState<User | null >(null)
   const [ posts, setPosts ] = useState<Post[]>([])
   
   useEffect(() => {
+
     async function fetchData() {
       try {
 
         setUser( await getUser(userId) );
-        setPosts( await getPosts(userId) );
+
+        const posts = await getPosts(userId)
+
+        if (authUser && userId === authUser.id) {
+          setPosts( posts.filter((p) => {
+            return p.createdAt.length
+          }) );
+        } else {
+          setPosts( posts.filter((p) => {
+            return p.publishedAt.length
+          }))
+        }
 
       } catch (error) {
         // Handle any errors that occur during the async operation
@@ -28,7 +42,7 @@ export default function UserPosts(props: { userId: string }) {
     }
 
     fetchData();
-  }, [userId]); // The empty dependency array ensures the effect runs only once
+  }, [userId, authUser]); // The empty dependency array ensures the effect runs only once
 
 
 

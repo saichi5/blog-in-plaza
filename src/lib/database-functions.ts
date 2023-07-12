@@ -229,3 +229,64 @@ export async function getPost(id: string): Promise<Post | null> {
   })
   return post
 }
+
+export async function clearPost(id: string) {
+
+  try {
+    const res = await fetcher(`/api/post/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    // revalidatePath('/')
+    } catch (error) {
+      console.error('clearPost error: ', error)
+  }
+}
+
+
+export async function checkNice(userId: string, postId: string): Promise<Boolean> {
+  return false
+  const res = await fetcher(`/api/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return res
+}
+
+export async function checkHard(userId: string, postId: string): Promise<Boolean> {
+  return false
+  const res = await fetcher(`/api/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return res
+}
+
+
+export async function changeNice(userId: string, postId: string): Promise<void> {
+  return
+  const res = await fetcher(`/api/`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+
+export async function changeHard(userId: string, postId: string): Promise<void> {
+  return
+  const res = await fetcher(`/api/`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}

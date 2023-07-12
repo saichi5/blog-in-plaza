@@ -1,24 +1,24 @@
 import Header from "@/components/organisms/header";
-import { UserProvider } from "@/components/user-context";
+import { AuthUserProvider } from "@/components/auth-user-context";
 import UserPosts from "@/components/pages/user-posts";
 
-interface PageProps {
+interface UserProps {
   params: {
     userId: string
   }
 }
 
-export default function UserRoot({ params }: PageProps) {
+export default function UserRoot({ params }: UserProps) {
   const userId = params.userId
   
   const currentPath = "/users/" + userId
 
   return (
     <main>
-      <UserProvider>
+      <AuthUserProvider>
         <Header currentPath={currentPath} />
-      </UserProvider>
-      <UserPosts userId={userId} />
+        <UserPosts userId={userId} />
+      </AuthUserProvider>
     </main>
   )
 }

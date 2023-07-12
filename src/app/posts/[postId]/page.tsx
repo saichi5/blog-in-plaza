@@ -1,8 +1,8 @@
 import Header from "@/components/organisms/header";
-import { UserProvider } from "@/components/user-context";
+import { AuthUserProvider } from "@/components/auth-user-context";
 import Post from "@/components/pages/post-page";
 
-interface PostProps {
+export interface PostProps {
   params: { postId: string }
 }
 
@@ -12,10 +12,10 @@ export default async function PostPage({ params }: PostProps) {
 
   return (
     <main>
-      <UserProvider>
+      <AuthUserProvider>
         <Header currentPath={currentPath} />
-      </UserProvider>
-      <Post postId={postId} />
+        <Post postId={postId} />
+      </AuthUserProvider>
     </main>
   )
 }

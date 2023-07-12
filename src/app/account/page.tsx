@@ -1,5 +1,5 @@
 import DeleteUser from "@/components/molecules/delete-user";
-import { UserProvider } from "@/components/user-context";
+import { AuthUserProvider } from "@/components/auth-user-context";
 import ChangePassword from "@/components/molecules/change-pass";
 import Email from "@/components/atoms/email";
 import FloatingCancelButton from "@/components/atoms/floating-cancel-button";
@@ -16,7 +16,7 @@ export default function ProfilePage() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserProvider>
+      <AuthUserProvider>
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           メールアドレス
         </h2>
@@ -31,7 +31,7 @@ export default function ProfilePage() {
         <hr />
         <DeleteUser />
         <FloatingCancelButton />
-      </UserProvider>
+      </AuthUserProvider>
     </Suspense>
   )
 }

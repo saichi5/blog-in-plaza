@@ -11,7 +11,9 @@ import Dropzone from 'react-dropzone';
 import { uploadUserImage } from '@/lib/file-loading';
 import MarkdownPreview from '@/components/atoms/markdown-preview';
 
+
 export default function SignupForm (){
+
   const [ displayName, setDisplayName ] = useState('');
   const [ description, setDescription ] = useState('');
   
@@ -118,8 +120,10 @@ export default function SignupForm (){
 
   return (
     <div>
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-0">
+    <form onSubmit={handleSubmit}
+      method='POST' action={undefined}
+      className='space-y-0'>
+      <div className="">
         <div className="pb-6">
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             {/* display name  */}
@@ -151,7 +155,7 @@ export default function SignupForm (){
               </label>
               <div
                   onClick={() => {
-                    window.open('/markdown-cheet-sheet.html',
+                    window.open('/markdown-cheat-sheet.html',
                       '_blank',
                       'width=512, height=512'
                     )

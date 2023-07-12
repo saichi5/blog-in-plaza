@@ -11,7 +11,11 @@ export default function HomePosts() {
   useEffect(() => {
     async function fetchData() {
       try {
-        setPosts( await getPosts() )
+        const posts = await getPosts()
+
+        setPosts( posts.filter((p) => {
+          return p.publishedAt.length
+        }) )
       } catch (error) {
         console.error(error)
       }

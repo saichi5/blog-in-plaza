@@ -5,7 +5,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import ProfileButton from '@/components/molecules/profile-button'
 import { ModeToggle } from '@/components/atoms/mode-toggle'
 import Link from "next/link";
-import { useUser } from '@/components/user-context'
+import { useAuthUser } from '@/components/auth-user-context'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -17,13 +17,13 @@ export default function Navibar2( props: {
   }) {
   const { currentPath } = props;
 
-  const authUser = useUser();
+  const authUser = useAuthUser();
 
   const navigation = [
     { name: 'みんなの広場', href: '/', current: false },
     { name: 'Myブログ', href: '/users/' + authUser?.id, current: false },
-    { name: 'フォロー', href: '/pages/followers', current: false },
-    { name: 'お知らせ', href: '/pages/information', current: false },
+    { name: 'フォロー', href: '/stat/followers', current: false },
+    { name: 'お知らせ', href: '/stat/info', current: false },
   ]
   if (!authUser){
     navigation.splice(1, 2);
@@ -89,7 +89,7 @@ export default function Navibar2( props: {
                         cursor-pointer dark:border-gray-400 dark:border-2 shadow-lg dark:shadow-none dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
-                        <Link href={"/signin" + back} className='px-4 py-2'>Sign in</Link>
+                        <Link href={"/entrance/signin" + back} className='px-4 py-2'>Sign in</Link>
                       </button>
                     ):(
                     <ProfileButton currentPath={currentPath} />

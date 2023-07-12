@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import type { FormEvent } from 'react';
 import { setUser } from '@/lib/database-functions';
-import { useUser } from '@/components/user-context';
+import { useAuthUser } from '@/components/auth-user-context';
 import Image from "next/image";
 import moment from 'moment';
 import Dropzone from 'react-dropzone';
@@ -18,7 +18,7 @@ export default function EditorForm (){
   const searchParams = useSearchParams();
   const backPath = searchParams && searchParams.get('back');
 
-  const user = useUser() as User;
+  const authUser = useAuthUser() as User;
 
   const [ displayName, setDisplayName ] = useState('');
   const [ description, setDescription ] = useState('');
@@ -28,11 +28,11 @@ export default function EditorForm (){
   const [ errorMessage, setErrorMessage ] = useState('');
 
   useEffect(() => {
-    setDisplayName(user?.displayName as string);
-    setDescription(user?.description as string);
-    setOldProfileImageUrl(user?.profileImageUrl as string);
-    setOldCoverImageUrl(user?.coverImageUrl as string);
-  }, [user] );
+    setDisplayName(authUser?.displayName as string);
+    setDescription(authUser?.description as string);
+    setOldProfileImageUrl(authUser?.profileImageUrl as string);
+    setOldCoverImageUrl(authUser?.coverImageUrl as string);
+  }, [authUser] );
 
   // ブラウザ表示用の paths
   const [previewCoverPath, setPreviewCoverPath] = useState<string>();
@@ -101,13 +101,13 @@ export default function EditorForm (){
       const profileImageUrl = resAvator?.url !== '' ? resAvator?.url : oldProfileImageUrl;
 
       const oldUser: User = {
-        id: user.id,
+        id: authUser.id,
         displayName: displayName as string,
-        email: user.email,
+        email: authUser.email,
         profileImageUrl: profileImageUrl,
         coverImageUrl: coverImageUrl,
         description: description,
-        createdAt: user.createdAt,
+        createdAt: authUser.createdAt,
         updatedAt: dateString,
       };
 
@@ -155,7 +155,7 @@ export default function EditorForm (){
                 </label>
                 <div
                   onClick={() => {
-                    window.open('/markdown-cheet-sheet.html',
+                    window.open('/markdown-cheat-sheet.html',
                       '_blank',
                       'width=512, height=512'
                     )

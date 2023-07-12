@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import type { FormEvent } from 'react';
 import { changePass } from '@/lib/database-functions';
-import { useUser } from '@/components/user-context';
+import { useAuthUser } from '@/components/auth-user-context';
 
 export default function ChangePassword (){
 
   const searchParams = useSearchParams();
   const backPath = searchParams && searchParams.get('back');
 
-  const user = useUser();
+  const authUser = useAuthUser();
 
   const [ oldPassword, setOldPassword ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -23,8 +23,8 @@ export default function ChangePassword (){
     e.preventDefault();
 
     try {
-      if (!user) throw new Error('Unauthorized')
-      await changePass( user.id, oldPassword, password, password2 );
+      if (!authUser) throw new Error('Unauthorized')
+      await changePass( authUser.id, oldPassword, password, password2 );
         window.location.replace(backPath ?? '/');
     }catch( error ){
       const err = error as Error;

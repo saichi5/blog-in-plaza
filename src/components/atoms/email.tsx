@@ -1,12 +1,12 @@
 'use client'
 
-import { useUser } from "@/components/user-context";
+import { useAuthUser } from "@/components/auth-user-context";
 
 export default function Email(){
-  const user = useUser();
+  const authUser = useAuthUser();
   return (
     <p className="mt-1 text-sm leading-6 text-gray-600">
-      {user?.email}
+      {authUser?.email}
     </p>
   )
 }
