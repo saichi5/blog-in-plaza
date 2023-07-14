@@ -11,11 +11,11 @@ export default async function PostPage({ params }: PostProps) {
   const currentPath = '/posts/' + postId
 
   return (
-    <main>
+    <div>
       <AuthUserProvider>
         <Header currentPath={currentPath} />
         <Post postId={postId} />
       </AuthUserProvider>
-    </main>
+    </div>
   )
 }
